@@ -1,4 +1,6 @@
-var port = 8000,
+require('dotenv').config()
+
+var port = process.env.PORT,
     express = require("express"),
     app = express(),
     bodyParser = require("body-parser"),
@@ -16,7 +18,7 @@ var campgroundRoutes = require("./routes/campgroud"),
     commentRoutes = require("./routes/comment"),
     indexRoutes = require("./routes/index");
 
-mongoose.connect("mongodb://localhost/yelp_camp_v6", { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false });
+mongoose.connect(process.env.MONGODB, { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false });
 app.use(express.static(__dirname + "/public"));
 app.set("view engine", "ejs");
 app.use(express.static("views"));
