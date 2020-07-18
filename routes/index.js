@@ -55,4 +55,15 @@ router.get('/logout', function (req, res) {
     res.redirect("/campground");
 }); 
 
+//Forgot password route
+router.get('/forgot', function (req, res){
+    res.render("forgot");
+});
+
+router.post('/forgot', function(req, res){
+    req.flash("success", "Click the link on the mail to change password");
+    res.redirect("/campground")
+});
+
+
 module.exports = router;
