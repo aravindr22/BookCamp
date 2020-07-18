@@ -1,0 +1,30 @@
+<%- include ('partials/header'); %>
+
+<div class="container my-custom-container" id="marginadjust">
+	<div class="jumbotron">
+		<form action="/register" method="POST">
+		  <div class="form-group" style="text-align: center;">
+			<h1>Welcome!!</h1>					
+		  </div>
+		  <br/>
+		  <div class="form-group">
+			<label for="exampleInputEmail1">Email address</label>
+			<input type="text" class="form-control" placeholder="UserName" name="username" aria-describedby="emailHelp">
+			<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+		  </div>
+		  <div class="form-group">
+			<label for="exampleInputPassword1">Password</label>
+			<input type="password" class="form-control" placeholder="Password" name="password">
+		  </div>
+		  <div class="form-group">
+			<label for="exampleadmincode">Admin Code</label>
+			<input type="text" class="form-control" placeholder="Admin Code" name="admincode" aria-describedby="emailHelp">			
+		  </div>
+		  <button type="submit" class="btn btn-primary">Submit</button>
+		  <small class="form-text text-muted">If yo're already Signed up!!</small>
+		  <small class="form-text text-muted">Click This!!. <a href="/login">Login!!</a> </small>
+		</form>
+	</div>
+</div>
+
+<%- include ('partials/footer'); %>
