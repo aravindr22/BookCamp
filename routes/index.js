@@ -4,6 +4,8 @@ var passport = require("passport");
 var nodemailer = require("nodemailer");
 var smtpTransport = require("nodemailer-smtp-transport");
 var User = require("../models/user");    
+var crypto = require("crypto"),
+  async = require("async");
 
 //home page of the website
 router.get("/", function (req, res) {
@@ -63,6 +65,7 @@ router.get('/forgot', function (req, res){
 });
 
 router.post('/forgot', function(req, res){
+    console.log(req.body)
     async.waterfall([
         function(done) {
           crypto.randomBytes(20, function(err, buf) {
@@ -71,10 +74,10 @@ router.post('/forgot', function(req, res){
           });
         },
         function(token, done) {
-          User.findOne({ email: req.body.email }, function(err, user) {
+          User.findOne({ username: req.body.username }, function(err, user) {
             if (!user) {
               req.flash('error', 'No account with that email address exists.');
-              return res.redirect('/api/forgot');
+              return res.redirect('/forgot');
             }
     
             user.resetPasswordToken = token;
@@ -86,19 +89,35 @@ router.post('/forgot', function(req, res){
           });
         },
         function(token, user, done) {
-          var fromEmail = new helper.Email('aravind08222@gmail.com');
-          var toEmail = new helper.Email(user.email);
-          var subject = 'Password Reset from Info Globe';
-          var content = new helper.Content('text/plain','You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+          console.log(user);
+          const mailOptions = {
+            from: "aravind08222@gmail.com",
+            to: user.username,
+            subject: 'Password Reset from YelpCamp', 
+            text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
                'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
                'http://' + req.headers.host + '/api/reset/' + token + '\n\n' +
-               'If you did not request this, please ignore this email and your password will remain unchanged.\n');
-          var mail = new helper.Mail(fromEmail, subject, toEmail, content);
-            
-          //Sending mail using gmail
+               'If you did not request this, please ignore this email and your password will remain unchanged.\n'
+          };
+           
+          var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'aravind08222',
+                pass: '22082000'
+            }
+         });
 
-          req.flash('success', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
-          res.redirect('/api/forgot');   
+          //Sending mail using gmail
+          transporter.sendMail(mailOptions, function (err, info) {
+            if(err)
+                console.log(err)
+            else
+                console.log(info);
+          });
+
+          req.flash('success', 'An e-mail has been sent to ' + user.username + ' with further instructions.');
+          res.redirect('/campground');   
         }]);
     // req.flash("success", "Click the link on the mail to change password");
     // res.redirect("/campground")
