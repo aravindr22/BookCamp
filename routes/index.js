@@ -65,7 +65,6 @@ router.get('/forgot', function (req, res){
 });
 
 router.post('/forgot', function(req, res){
-    console.log(req.body)
     async.waterfall([
         function(done) {
           crypto.randomBytes(20, function(err, buf) {
@@ -74,7 +73,7 @@ router.post('/forgot', function(req, res){
           });
         },
         function(token, done) {
-          User.findOne({ username: req.body.username }, function(err, user) {
+          User.findOne({ username: req.body.email }, function(err, user) {
             if (!user) {
               req.flash('error', 'No account with that email address exists.');
               return res.redirect('/forgot');
@@ -89,22 +88,21 @@ router.post('/forgot', function(req, res){
           });
         },
         function(token, user, done) {
-          console.log(user);
           const mailOptions = {
             from: "aravind08222@gmail.com",
             to: user.username,
             subject: 'Password Reset from YelpCamp', 
-            text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+            text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account in YelpCamp.\n\n' +
                'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
                'http://' + req.headers.host + '/api/reset/' + token + '\n\n' +
                'If you did not request this, please ignore this email and your password will remain unchanged.\n'
           };
-           
+
           var transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: 'aravind08222',
-                pass: '22082000'
+                user: process.env.GMAILUSERNAME,
+                pass: process.env.GMAILPASS
             }
          });
 
@@ -119,9 +117,6 @@ router.post('/forgot', function(req, res){
           req.flash('success', 'An e-mail has been sent to ' + user.username + ' with further instructions.');
           res.redirect('/campground');   
         }]);
-    // req.flash("success", "Click the link on the mail to change password");
-    // res.redirect("/campground")
 });
-
 
 module.exports = router;
