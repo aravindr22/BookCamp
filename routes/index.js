@@ -1,7 +1,11 @@
 var express = require("express");
 var router = express.Router();
 var passport = require("passport");
+var nodemailer = require("nodemailer");
+var smtpTransport = require("nodemailer-smtp-transport");
 var User = require("../models/user");    
+var crypto = require("crypto"),
+  async = require("async");
 
 //home page of the website
 router.get("/", function (req, res) {
@@ -61,9 +65,58 @@ router.get('/forgot', function (req, res){
 });
 
 router.post('/forgot', function(req, res){
-    req.flash("success", "Click the link on the mail to change password");
-    res.redirect("/campground")
-});
+    async.waterfall([
+        function(done) {
+          crypto.randomBytes(20, function(err, buf) {
+            var token = buf.toString('hex');
+            done(err, token);
+          });
+        },
+        function(token, done) {
+          User.findOne({ username: req.body.email }, function(err, user) {
+            if (!user) {
+              req.flash('error', 'No account with that email address exists.');
+              return res.redirect('/forgot');
+            }
+    
+            user.resetPasswordToken = token;
+            user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+    
+            user.save(function(err) {
+              done(err, token, user);
+            });
+          });
+        },
+        function(token, user, done) {
+          const mailOptions = {
+            from: "aravind08222@gmail.com",
+            to: user.username,
+            subject: 'Password Reset from YelpCamp', 
+            text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account in YelpCamp.\n\n' +
+               'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+               'http://' + req.headers.host + '/api/reset/' + token + '\n\n' +
+               'If you did not request this, please ignore this email and your password will remain unchanged.\n'
+          };
 
+          var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.GMAILUSERNAME,
+                pass: process.env.GMAILPASS
+            }
+         });
+
+          //Sending mail using gmail
+          transporter.sendMail(mailOptions, function (err, info) {
+            if(err)
+                console.log(err)
+            else
+                console.log(info);
+          });
+
+          req.flash('success', 'An e-mail has been sent to ' + user.username + ' with further instructions.');
+          res.redirect('/campground');   
+        }]);
+});
 
 module.exports = router;
