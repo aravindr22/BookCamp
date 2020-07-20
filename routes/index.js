@@ -131,4 +131,31 @@ router.get('/reset/:token', function(req, res) {
   });
 });
 
+router.post('/reset/:token', function(req, res) {
+  async.waterfall([
+    function(done) {
+      User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
+        if (!user) {
+          req.flash('error', 'Password reset token is invalid or has expired.');
+          return res.redirect('back');
+        }
+        user.setPassword(req.body.password, function(err) {
+           user.resetPasswordToken = undefined;
+           user.resetPasswordExpires = undefined;
+
+           user.save(function(err) {
+            req.logIn(user, function(err) {
+              done(err, user);
+            });
+          });
+        });
+      });
+     },
+  ], function(err) {
+    req.flash('success','Password is succesfully changed');
+    res.redirect('/campground');    
+  });
+});
+
+
 module.exports = router;
