@@ -4,7 +4,9 @@ var mongoose = require("mongoose"),
 var userSchema = new mongoose.Schema({
     username: String,
     password: String,
-    isadmin: { type: Boolean, default: false }
+    isadmin: { type: Boolean, default: false },
+    resetPasswordToken: String,
+    resetPasswordExpires: { type: Date, default: null}
 });
 
 userSchema.plugin(passportlocalmongoose);
