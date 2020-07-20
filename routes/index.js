@@ -94,7 +94,7 @@ router.post('/forgot', function(req, res){
             subject: 'Password Reset from YelpCamp', 
             text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account in YelpCamp.\n\n' +
                'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-               'http://' + req.headers.host + '/api/reset/' + token + '\n\n' +
+               'http://' + req.headers.host + '/reset/' + token + '\n\n' +
                'If you did not request this, please ignore this email and your password will remain unchanged.\n'
           };
 
@@ -118,5 +118,44 @@ router.post('/forgot', function(req, res){
           res.redirect('/campground');   
         }]);
 });
+
+//Reset Password Route
+
+router.get('/reset/:token', function(req, res) {
+  User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
+  if (!user) {
+      req.flash('error', 'Password reset token is invalid or has expired.');
+      return res.redirect('/forgot');
+    }
+    res.render('reset.ejs', {token: req.params.token});
+  });
+});
+
+router.post('/reset/:token', function(req, res) {
+  async.waterfall([
+    function(done) {
+      User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
+        if (!user) {
+          req.flash('error', 'Password reset token is invalid or has expired.');
+          return res.redirect('back');
+        }
+        user.setPassword(req.body.password, function(err) {
+           user.resetPasswordToken = undefined;
+           user.resetPasswordExpires = undefined;
+
+           user.save(function(err) {
+            req.logIn(user, function(err) {
+              done(err, user);
+            });
+          });
+        });
+      });
+     },
+  ], function(err) {
+    req.flash('success','Password is succesfully changed');
+    res.redirect('/campground');    
+  });
+});
+
 
 module.exports = router;
