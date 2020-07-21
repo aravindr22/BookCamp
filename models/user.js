@@ -5,6 +5,8 @@ var userSchema = new mongoose.Schema({
     username: String,
     password: String,
     isadmin: { type: Boolean, default: false },
+    firstname: { type: Boolean, default: null },
+    lastname: { type: Boolean, default: null },
     resetPasswordToken: String,
     resetPasswordExpires: { type: Date, default: null}
 });
