@@ -71,9 +71,6 @@ router.post("/userdetails", function(req, res){
   res.redirect("/campground");
 });
   
-
-
-
 //Login get route
 router.get("/login", function (req, res) {
     res.render("login");
