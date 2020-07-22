@@ -34,10 +34,14 @@ router.post("/register", function (req, res) {
         }
         passport.authenticate("local")(req, res, function () {
             req.flash("success", "Welcome to YelpCamp " + data.username);
-            res.redirect("/campground");
+            res.redirect("/userdetails");
         });
     });
 });
+
+router.get("/userdetails", function(req ,res){
+  res.render("details.ejs");
+})
 
 //Login get route
 router.get("/login", function (req, res) {
