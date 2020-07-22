@@ -39,10 +39,38 @@ router.post("/register", function (req, res) {
     });
 });
 
+//USer details route
 router.get("/userdetails", function(req ,res){
   res.render("details.ejs");
-})
+});
 
+router.post("/userdetails", function(req, res){
+  console.log(req.body);
+  User.findOne({ username: req.body.username }, function(err, user){
+    if(err){
+      console.log(err);
+      User.remove({ username: req.bod.username }, function(err ,data){
+        if(err){
+          console.log(err);
+        } else {
+          console.log(data)
+          res.redirect("/register");
+        }
+      });      
+    } else {
+      
+      user.dob = req.body.dob;
+      user.contact = req.body.contact;
+      user.firstname = req.body.firstname;
+      user.lastname = req.body.lastname;
+      console.log(user);
+      user.save();
+    }
+  });
+  req.flash("success", "Your Details has been Succesully saved");
+  res.redirect("/campground");
+});
+  
 //Login get route
 router.get("/login", function (req, res) {
     res.render("login");
