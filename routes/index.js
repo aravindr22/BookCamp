@@ -39,9 +39,38 @@ router.post("/register", function (req, res) {
     });
 });
 
+//USer details route
 router.get("/userdetails", function(req ,res){
   res.render("details.ejs");
-})
+});
+
+router.post("/userdetails", function(req, res){
+  console.log(req.body);
+  // User.findOne({ username: req.body.email }, function(err, user){
+  //   if(err){
+  //     console.log(err);
+  //     res.redirect("/register");
+  //   } else {
+  //     user.dob = req.body.dob;
+  //     user.contact = req.body.contact;
+  //     user.firstname = req.body.firstname;
+  //     user.lastname = req.body.lastname;
+      
+  //     user.save();
+  //   }
+  // User.findOneAndUpdate({ username: req.body.username }, req.body, {new: false},
+  //   function(err, data){
+  //     if(err){
+  //       console.log(err);
+  //     } else {
+  //       console.log(data);
+  //       res.redirect("/userdetails");
+  //      }
+  //   });
+});
+  
+
+
 
 //Login get route
 router.get("/login", function (req, res) {

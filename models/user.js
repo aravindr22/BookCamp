@@ -5,10 +5,10 @@ var userSchema = new mongoose.Schema({
     username: String,
     password: String,
     isadmin: { type: Boolean, default: false },
-    firstname: { type: Boolean, default: null },
-    lastname: { type: Boolean, default: null },
-    contact: { type: Boolean, default: 0 },
-    dob: { type: Date, default: null},
+    firstname: { type: String, default: null },
+    lastname: { type: String, default: null },
+    contact: { type: String, default: null },
+    dob: { type: String, default: null},
     resetPasswordToken: String,
     resetPasswordExpires: { type: Date, default: null}
 });
