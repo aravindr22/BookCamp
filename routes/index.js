@@ -4,6 +4,7 @@ var passport = require("passport");
 var nodemailer = require("nodemailer");
 var smtpTransport = require("nodemailer-smtp-transport");
 var User = require("../models/user");    
+var middleware = require("../middleware/index");
 var crypto = require("crypto"),
   async = require("async");
 
@@ -40,11 +41,11 @@ router.post("/register", function (req, res) {
 });
 
 //USer details route
-router.get("/userdetails", function(req ,res){
+router.get("/userdetails",middleware.isSignedUp, function(req ,res){
   res.render("details.ejs");
 });
 
-router.post("/userdetails", function(req, res){
+router.post("/userdetails",middleware.isSignedUp, function(req, res){
   console.log(req.body);
   User.findOne({ username: req.body.username }, function(err, user){
     if(err){

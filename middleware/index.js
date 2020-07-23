@@ -58,5 +58,13 @@ middlewareobj.isLoggedin = function(req, res, next) {
     res.redirect("/login");
 }
 
+middlewareobj.isSignedUp = function(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    req.flash("error", "You need to sign Up first");
+    res.redirect("/register");
+}
+
 
 module.exports = middlewareobj;
