@@ -19,7 +19,7 @@ function showMError(message) {
 }
 
 function showMPass(message) {
-    merror.style.color = "#119822";
+    merror.style.color = "#33e314";
     merror.innerHTML = message;
 }
 
@@ -31,7 +31,7 @@ function showError(message){
 }
 
 const showPass = message => {
-    error.style.color = "#119822";
+    error.style.color = "#33e314";
     error.innerHTML = message;
 }
 
