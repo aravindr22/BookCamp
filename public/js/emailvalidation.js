@@ -5,6 +5,7 @@ const merror = document.querySelector(".error-email-message");
 const timeout = null;
 const Mtimeout = null;
 
+console.log(1);
 //const showError = message => {
 //    error.style.color = "#C91E1E";
 //    error.style.display = "block";
@@ -12,25 +13,25 @@ const Mtimeout = null;
 //}
 
 function showMError(message) {
-    merror.style.color = "#C91E1E";
+    merror.style.color = "#ff3300";
     merror.style.display = "block";
     merror.innerHTML = message;
 }
 
 function showMPass(message) {
-    merror.style.color = "#119822";
+    merror.style.color = "#33e314";
     merror.innerHTML = message;
 }
 
 //password validation
 function showError(message){
-    error.style.color = "#C91E1E";
+    error.style.color = "#ff3300";
     error.style.display = "block";
     error.innerHTML = message;
 }
 
 const showPass = message => {
-    error.style.color = "#119822";
+    error.style.color = "#33e314";
     error.innerHTML = message;
 }
 
@@ -68,11 +69,11 @@ function validatePassword(password) {
     }
 };
 
-input.addEventListener('keyup', e => {
-    const password = e.target.value;
-    clearTimeout(timeout);
-    timeout = setTimeout(() => validatePassword(password), 400);
-});
+// input.addEventListener('keyup', e => {
+//     const password = e.target.value;
+//     clearTimeout(timeout);
+//     timeout = setTimeout(() => validatePassword(password), 400);
+// });
 
 minput.addEventListener('keyup', e => {
     const mail = e.target.value;

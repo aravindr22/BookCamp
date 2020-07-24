@@ -51,3 +51,34 @@
 /*li.nav-item{
     color:white;
 }*/
+
+#emailHelp{
+    margin-left: 5px;
+}
+
+.error-email-message{
+    margin: 2px 0px 2px 5px;
+}
+
+#Emailmargin{
+    margin-bottom: 10px;
+}
+
+.error-message{
+    font-size: 1em;
+    display: none;
+    color: red;
+    padding-left: 2px;
+    animation: 0.2s ease-in-out fadeIn forwards;
+}
+
+@keyframes fadeIn{
+    form {
+        margin-top: 16px;
+        opacity: 0;
+    }
+    to {
+        margin-top: 8px;
+        opacity: 1;
+    }
+}
