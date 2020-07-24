@@ -13,7 +13,7 @@ console.log(1);
 //}
 
 function showMError(message) {
-    merror.style.color = "#C91E1E";
+    merror.style.color = "#ff3300";
     merror.style.display = "block";
     merror.innerHTML = message;
 }
@@ -25,7 +25,7 @@ function showMPass(message) {
 
 //password validation
 function showError(message){
-    error.style.color = "#C91E1E";
+    error.style.color = "#ff3300";
     error.style.display = "block";
     error.innerHTML = message;
 }

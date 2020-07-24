@@ -52,9 +52,16 @@
     color:white;
 }*/
 
-.error-email-message{
-    margin-bottom: 2px;
+#emailHelp{
     margin-left: 5px;
+}
+
+.error-email-message{
+    margin: 2px 0px 2px 5px;
+}
+
+#Emailmargin{
+    margin-bottom: 10px;
 }
 
 .error-message{
