@@ -15,6 +15,9 @@ router.get("/", function (req, res) {
 
 //---------------------------------Auth Routes----------------------------------
 
+
+//----------------------Here email address is treated as username -----------------------
+
 //Register get route
 router.get("/register", function (req, res) {
     res.render("register");
@@ -22,22 +25,39 @@ router.get("/register", function (req, res) {
 
 //Register Post Route
 router.post("/register", function (req, res) {
-    var newuser = new User({ username: req.body.username });
-    if (req.body.admincode === "secretcode123") {
-        newuser.isadmin = true;
+    var usernamefield = req.body.username;
+    var valid = false;
+
+    //TO check username(email) is valid or not
+    var atposition = usernamefield.indexOf("@");
+    var dotposition = usernamefield.lastIndexOf(".");
+    if (atposition < 1 || dotposition < atposition + 2 || dotposition + 2 >= usernamefield.length) {
+      valid = false;
+    } else {
+      valid = true;
     }
-    User.register(newuser, req.body.password, function (err, data) {
-        if (err) {
-            console.log(err);            
-            req.flash("success", err.message);
-            res.redirect("/register");
-            //return res.render("register");
-        }
-        passport.authenticate("local")(req, res, function () {
-            req.flash("success", "Welcome to YelpCamp " + data.username);
-            res.redirect("/userdetails");
-        });
-    });
+
+    if(valid){
+      var newuser = new User({ username: req.body.username });
+      if (req.body.admincode === "secretcode123") {
+          newuser.isadmin = true;
+      }
+      User.register(newuser, req.body.password, function (err, data) {
+          if (err) {
+              console.log(err);            
+              req.flash("success", err.message);
+              res.redirect("/register");
+              //return res.render("register");
+          }
+          passport.authenticate("local")(req, res, function () {
+              req.flash("success", "Welcome to YelpCamp " + data.username);
+              res.redirect("/userdetails");
+          });
+      });
+    } else {
+      req.flash("error", "Enter a Valid Email Address");
+      res.redirect("/register");
+    } 
 });
 
 //USer details route
