@@ -8,5 +8,6 @@ WHere it the site has many features as:-
 * Reset Password
 * Edit Blog
 * Comment options
+* Email validation and authorization
 
 MOre updates yet to come...............
