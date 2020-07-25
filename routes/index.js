@@ -8,6 +8,8 @@ var middleware = require("../middleware/index");
 var crypto = require("crypto"),
   async = require("async");
 
+const validators = require("../helpers/validator");
+
 //home page of the website
 router.get("/", function (req, res) {
     res.render("landing");
@@ -25,20 +27,14 @@ router.get("/register", function (req, res) {
 
 //Register Post Route
 router.post("/register", function (req, res) {
-    var usernamefield = req.body.username;
-    var valid = false;
+
+    const emailAddress = req.body.username;
 
     //TO check username(email) is valid or not
-    var atposition = usernamefield.indexOf("@");
-    var dotposition = usernamefield.lastIndexOf(".");
-    if (atposition < 1 || dotposition < atposition + 2 || dotposition + 2 >= usernamefield.length) {
-      valid = false;
-    } else {
-      valid = true;
-    }
-
+    var valid = validators.emailValidator(emailAddress);    
+    
     if(valid){
-      var newuser = new User({ username: req.body.username });
+      var newuser = new User({ username: emailAddress });
       if (req.body.admincode === "secretcode123") {
           newuser.isadmin = true;
       }
