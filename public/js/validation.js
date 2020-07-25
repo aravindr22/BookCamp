@@ -5,7 +5,6 @@ const merror = document.querySelector(".error-email-message");
 const timeout = null;
 const Mtimeout = null;
 
-console.log(1);
 //const showError = message => {
 //    error.style.color = "#C91E1E";
 //    error.style.display = "block";
