@@ -1,15 +1,29 @@
 const input = document.querySelector(".password-input");
-const error = document.querySelector(".error-message");
+const error = document.querySelector(".error-password-message");
 const minput = document.querySelector(".email-input");
 const merror = document.querySelector(".error-email-message");
+const reinput = document.querySelector(".retype-pass");
+const reerror = document.querySelector("error-retype-message");
 const timeout = null;
 const Mtimeout = null;
+const Rtimeout = null;
 
 //const showError = message => {
 //    error.style.color = "#C91E1E";
 //    error.style.display = "block";
 //    error.innerHTML = message;
 //}
+
+function showReerror(message) {
+    reerror.style.color = "#ff3300";
+    reerror.style.display = "block";
+    reerror.innerHTML = message;
+}
+
+function showRepass(message) {
+    reerror.style.color = "ff3300";
+    reerror.innerHTML = message;
+}
 
 function showMError(message) {
     merror.style.color = "#ff3300";
@@ -32,6 +46,14 @@ function showError(message){
 const showPass = message => {
     error.style.color = "#33e314";
     error.innerHTML = message;
+}
+
+function validateRetypePass(pass1, pass2){
+    if(pass1 == pass2){
+        showRepass("Retyped Password is correct");
+    } else {
+        showReerror("Retped Password is wrong");
+    }
 }
 
 function validateMail(emailField) {    
@@ -68,14 +90,19 @@ function validatePassword(password) {
     }
 };
 
-// input.addEventListener('keyup', e => {
-//     const password = e.target.value;
-//     clearTimeout(timeout);
-//     timeout = setTimeout(() => validatePassword(password), 400);
-// });
+input.addEventListener('keyup', e => {
+    const password = e.target.value;
+    clearTimeout(timeout);
+    timeout = setTimeout(() => validatePassword(password), 400);
+});
 
 minput.addEventListener('keyup', e => {
     const mail = e.target.value;
     clearTimeout(Mtimeout);
     Mtimeout = setTimeout(() => validateMail(mail), 400);
 });
+
+// reinput.addEventListener('keyup', e => {
+//     clearTimeout(Rtimeout);
+//     Rtimeout = setTimeout(() => validateRetypePass(input, reinput), 400);
+// })
