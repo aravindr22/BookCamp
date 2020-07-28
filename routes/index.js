@@ -9,6 +9,7 @@ var crypto = require("crypto"),
   async = require("async");
 
 const validators = require("../helpers/validator");
+const validatorobj = require("../helpers/validator");
 
 //home page of the website
 router.get("/", function (req, res) {
@@ -31,9 +32,10 @@ router.post("/register", function (req, res) {
     const emailAddress = req.body.username;
 
     //TO check username(email) is valid or not
-    var valid = validators.emailValidator(emailAddress);    
-    
-    if(valid){
+    var evalid = validators.emailValidator(emailAddress);    
+    var pvalid = validators.passValidator(req.body.password);
+
+    if(evalid && pvalid){
       var newuser = new User({ username: emailAddress });
       if (req.body.admincode === "secretcode123") {
           newuser.isadmin = true;
@@ -51,7 +53,7 @@ router.post("/register", function (req, res) {
           });
       });
     } else {
-      req.flash("error", "Enter a Valid Email Address");
+      req.flash("error", "Enter a Valid Email Address or a password");
       res.redirect("/register");
     } 
 });

@@ -11,4 +11,25 @@ validatorobj.emailValidator = function(emailAddress){
     }
 }
 
+validatorobj.passValidator = function(password) {
+  const lowerCaseRegex = new RegExp('^(?=.*[a-z])');
+  const UpperCaseRegex = new RegExp('^(?=.*[A-Z])');
+  const SpecialCharacterRegex = new RegExp('^(?=.*[!@#$%&*])');
+  const NumericRegex = new RegExp('^(?=.*[0-9])');
+
+  if (password.length < 6) {
+      return false;
+  } else if (!lowerCaseRegex.test(password)) {
+      return false;
+  } else if (!UpperCaseRegex.test(password)) {
+      return false;
+  } else if (!SpecialCharacterRegex.test(password)) {
+      return false;
+  } else if (!NumericRegex.test(password)) {
+      return false;
+  } else {
+      return true;
+  }
+}
+
 module.exports = validatorobj;
