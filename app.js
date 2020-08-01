@@ -55,6 +55,6 @@ app.use("/campground/:id/comments",commentRoutes);
 
 //---------------------------------LISTNER--------------------------------------
 
-app.listen(port, process.env.IP ,function () {
+app.listen(port ,function () {
     console.log("Server has started");
 });
