@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('dotenv').config({ path: '/.env'})
 
 var port = process.env.PORT,
     express = require("express"),
