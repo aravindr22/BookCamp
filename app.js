@@ -18,7 +18,7 @@ var campgroundRoutes = require("./routes/campgroud"),
     commentRoutes = require("./routes/comment"),
     indexRoutes = require("./routes/index");
 
-    
+
 //mongoose.connect(process.env.MONGODB, { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false });
 mongoose.connect(process.env.MONGODBCS, { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false });
 app.use(express.static(__dirname + "/public"));
