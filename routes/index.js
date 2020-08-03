@@ -30,6 +30,8 @@ router.get("/register", function (req, res) {
 router.post("/register", function (req, res) {
 
     const emailAddress = req.body.username;
+    const pass = req.body.password;
+    const cpass = req.body.confirmPassword;
 
     //TO check username(email) is valid or not
     var evalid = validators.emailValidator(emailAddress);    
@@ -37,21 +39,26 @@ router.post("/register", function (req, res) {
 
     if(evalid && pvalid){
       var newuser = new User({ username: emailAddress });
-      if (req.body.admincode === "secretcode123") {
-          newuser.isadmin = true;
+      if(pass == cpass){
+        if (req.body.admincode === "secretcode123") {
+            newuser.isadmin = true;
+        }
+        User.register(newuser, req.body.password, function (err, data) {
+            if (err) {
+                console.log(err);            
+                req.flash("success", err.message);
+                res.redirect("/register");
+                //return res.render("register");
+            }
+            passport.authenticate("local")(req, res, function () {
+                req.flash("success", "Welcome to YelpCamp " + data.username);
+                res.redirect("/userdetails");
+            });
+        });
+      } else {
+        req.flash("error", "Password's do not match");
+        res.redirect("/register");
       }
-      User.register(newuser, req.body.password, function (err, data) {
-          if (err) {
-              console.log(err);            
-              req.flash("success", err.message);
-              res.redirect("/register");
-              //return res.render("register");
-          }
-          passport.authenticate("local")(req, res, function () {
-              req.flash("success", "Welcome to YelpCamp " + data.username);
-              res.redirect("/userdetails");
-          });
-      });
     } else {
       req.flash("error", "Enter a Valid Email Address or a password");
       res.redirect("/register");
@@ -100,7 +107,7 @@ router.post('/login', passport.authenticate("local",
     {
         successRedirect: "/campground",
         failureRedirect: "/login"
-    }), function (req, res) {        
+    }), function (req, res) {  
 });
 
 //Logout Route
