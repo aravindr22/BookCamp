@@ -3,17 +3,10 @@ var router = express.Router({ mergeParams: true });
 var Campground = require("../models/campground"),
     Comment = require("../models/comment"),
     middleware = require("../middleware");
+const comment = require("../controllers/comment");
 
 //Comments get Route
-router.get("/new", middleware.isLoggedin, function (req, res) {
-    Campground.findById(req.params.id, function (err, foundcampground) {
-        if (err) {
-            console.log(err);
-        } else {
-            res.render("cmntsnew", { campground: foundcampground });
-        }
-    });
-});
+router.get("/new", middleware.isLoggedin, comment.addCommentForm);
 
 //comments post route
 router.post("/", middleware.isLoggedin, function (req, res) {
