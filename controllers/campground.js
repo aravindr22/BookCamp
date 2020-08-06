@@ -62,6 +62,9 @@ exports.viewCampground = function(req, res){
             console.log(err);
         } else {
             console.log(foundcampground);
+            foundcampground.popularity = foundcampground.popularity + 0.05;
+            foundcampground.views = foundcampground.views + 1;
+            foundcampground.save();
             res.render("campshow", { campground: foundcampground });
         }
     });
