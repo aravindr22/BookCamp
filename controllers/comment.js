@@ -29,7 +29,7 @@ exports.addComment = function(req, res){
                     comment.author.username = req.user.username;
                     //save comment
                     comment.save();
-                    campground.popularity = campground.popularity + 2;
+                    campground.popularity = campground.popularity + 1;
                     campground.comments.push(comment);
                     campground.save();              
                     req.flash("success", "Comment Created Successfully");
@@ -76,13 +76,12 @@ exports.deleteComment = function(req, res){
                 if(err){
                     console.log(err);
                 } else {
-                    camp.popularity = camp.popularity-1;
-                    camp.save();
+                    camp.popularity = camp.popularity-0.75;
+                    camp.save(); 
                 }
             });
             req.flash("success", "Comment Deleted Succesfully");            
             res.redirect("/campground/" + req.params.id);
-
         }
     })
 }
