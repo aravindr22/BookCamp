@@ -25,7 +25,7 @@ exports.indexPage = function(req, res){
             } else {
                 res.render("campindex", { campground: allcampground, currentuser: req.user });
             }
-        });
+        }).sort({ "popularity": -1 });  //Sort by popularity in descending order
     }
 }
 

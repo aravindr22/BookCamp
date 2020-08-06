@@ -29,6 +29,8 @@ exports.addComment = function(req, res){
                     comment.author.username = req.user.username;
                     //save comment
                     comment.save();
+                    
+                    campground.popularity = campground.popularity + 2;
                     campground.comments.push(comment);
                     campground.save();              
                     req.flash("success", "Comment Created Successfully");
