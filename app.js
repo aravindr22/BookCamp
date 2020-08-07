@@ -9,12 +9,10 @@ var port = process.env.PORT,
     LocalStratergy = require("passport-local"),
     methodOverride = require("method-override"),        //for put and delete methods
     flash = require("connect-flash"),
-    Campground = require("./models/campground"),
-    Comment = require("./models/comment"),
     User = require("./models/user"),
     seedDB = require("./seeds");
 
-var campgroundRoutes = require("./routes/campgroud"),
+var booksRoutes = require("./routes/book"),
     commentRoutes = require("./routes/comment"),
     indexRoutes = require("./routes/index");
 
@@ -51,7 +49,7 @@ app.use(function (req, res, next) {
 });
 
 app.use("/",indexRoutes);
-app.use("/campground",campgroundRoutes);
+app.use("/book",booksRoutes);
 app.use("/campground/:id/comments",commentRoutes);
 
 //---------------------------------LISTNER--------------------------------------
