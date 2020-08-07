@@ -1,8 +1,8 @@
 var mongoose = require("mongoose");
 
-//Campground Schema Setup
+//Book Schema Setup
 
-var campgroundSchema = new mongoose.Schema({
+var bookSchema = new mongoose.Schema({
     name: { type: String, default: null},
     image: { type: String, default: null},
     price: { type: Number, default: 0 },
@@ -24,4 +24,4 @@ var campgroundSchema = new mongoose.Schema({
     ]
 });
 
-module.exports = mongoose.model("Campground", campgroundSchema);
+module.exports = mongoose.model("book", bookSchema);

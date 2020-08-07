@@ -1,6 +1,6 @@
-# YelpCamp
+# BookCamp
 
-YelpCamp is a blogging site for BEst destination in world for vacation.
+BookCamp is a blogging site for BEst destination in world for vacation.
 
 WHere it the site has many features as:-
 
@@ -9,6 +9,8 @@ WHere it the site has many features as:-
 * Edit Blog
 * Comment options
 * Email validation and authorization
+* Posts are sorted in popularity order
+* Popularity based on views and comments
 
 Website link for campground:
 https://yelpcampar.herokuapp.com/
