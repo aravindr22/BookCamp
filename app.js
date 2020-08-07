@@ -50,7 +50,7 @@ app.use(function (req, res, next) {
 
 app.use("/",indexRoutes);
 app.use("/books",booksRoutes);
-app.use("/campground/:id/comments",commentRoutes);
+app.use("/books/:id/comments",commentRoutes);
 
 //---------------------------------LISTNER--------------------------------------
 

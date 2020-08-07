@@ -97,7 +97,7 @@ exports.saveUserDetails = function(req, res){
         }
     });
     req.flash("success", "Your Details has been Succesully saved");
-    res.redirect("/campground");
+    res.redirect("/books");
 }
 
 //Login page
@@ -108,7 +108,7 @@ exports.loginPage = function(req, res){
 //CHeck login details
 exports.loginVerification = passport.authenticate("local",
 {
-    successRedirect: "/campground",
+    successRedirect: "/books",
     failureRedirect: "/login"
 }), function (req, res) {  
 }
@@ -117,7 +117,7 @@ exports.loginVerification = passport.authenticate("local",
 exports.logout = function(req, res){
     req.logout();
     req.flash("success", "You are been logged out");
-    res.redirect("/campground");
+    res.redirect("/books");
 }
 
 //get Forgot PAss page
@@ -178,7 +178,7 @@ exports.forgotToken = function(req, res){
           });
 
           req.flash('success', 'An e-mail has been sent to ' + user.username + ' with further instructions.');
-          res.redirect('/campground');   
+          res.redirect('/books');   
         }]);
 }
 
@@ -216,6 +216,6 @@ exports.resetPassPost = function(req, res){
          },
       ], function(err) {
         req.flash('success','Password is succesfully changed');
-        res.redirect('/campground');    
+        res.redirect('/books');    
     });
 }
