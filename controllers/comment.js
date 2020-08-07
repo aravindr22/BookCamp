@@ -18,7 +18,7 @@ exports.addComment = function(req, res){
         if (err) {
             console.log(err);
             req.flash("error", "Something Went Wrong");
-            res.redirect("/book");
+            res.redirect("/books");
         } else {
             Comment.create(req.body.comment, function (err, comment) {
                 if (err) {
@@ -33,7 +33,7 @@ exports.addComment = function(req, res){
                     book.comments.push(comment);
                     book.save();              
                     req.flash("success", "Comment Created Successfully");
-                    res.redirect("/book/" + book._id);
+                    res.redirect("/books/" + book._id);
                 }
             });
         }
@@ -60,7 +60,7 @@ exports.updateComment = function(req, res){
             res.redirect("back");
         } else {
             req.flash("success", "Comment Edited Succesfully");            
-            res.redirect("/book/" + req.params.id);
+            res.redirect("/books/" + req.params.id);
         }
     });
 }
@@ -81,7 +81,7 @@ exports.deleteComment = function(req, res){
                 }
             });
             req.flash("success", "Comment Deleted Succesfully");            
-            res.redirect("/book/" + req.params.id);
+            res.redirect("/books/" + req.params.id);
         }
     })
 }

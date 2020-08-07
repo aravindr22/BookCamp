@@ -3,7 +3,7 @@
 	<div>
 		<h1 style="text-align: center;">Edit Comment!!</h1></br>
 		<div style="width: 30%; margin: 0 auto;">
-			<form action="/books/<%= book._id %>/comments/<%= comment._id %>?_method=PUT" method="post">
+			<form action="/books/<%= book_id %>/comments/<%= comment._id %>?_method=PUT" method="post">
 				<div class="form-group">
 					<input class="form-control" type="text" name="comment[text]" value="<%= comment.text %>" />
 				</div>

@@ -45,7 +45,7 @@ exports.createBookPostreq = function(req, res){
             console.log(err);
         } else {
             req.flash("success", "Book Created Successfully");
-            res.redirect("/book");
+            res.redirect("/books");
         }
     });
 }
@@ -82,10 +82,10 @@ exports.updateBook = function(req, res){
     Book.findByIdAndUpdate(req.params.id, req.body.book, function (err, updatedata) {
         if (err) {
             console.log(err);
-            res.redirect("/book");
+            res.redirect("/books");
         } else {
             req.flash("success", "Book Details Edited Succesfully");
-            res.redirect("/book/" + req.params.id);
+            res.redirect("/books/" + req.params.id);
         }
     });
 }
@@ -95,10 +95,10 @@ exports.deleteBook = function(req, res){
     Book.findByIdAndRemove(req.params.id, function (err, data) {
         if (err) {
             console.log(err);
-            res.redirect("/book");
+            res.redirect("/books");
         } else {
             req.flash("success", "Book Details Deleted Succesfully");
-            res.redirect("/book");
+            res.redirect("/books");
         }
     });
 }
