@@ -1,6 +1,10 @@
 body{
     background-color: #000;
 }
+h2{
+  color: white;
+  margin-bottom: 20px;
+}
 
 /* To position the welcome text and view all campgrounds button */
 #landing-header {
