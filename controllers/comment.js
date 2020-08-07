@@ -1,24 +1,24 @@
-const Campground = require("../models/campground");
+const Book = require("../models/book");
 const Comment = require("../models/comment");
 
 //Comment create form
 exports.newCommentForm = function(req, res){
-    Campground.findById(req.params.id, function (err, foundcampground) {
+    Book.findById(req.params.id, function (err, foundbook) {
         if (err) {
             console.log(err);
         } else {
-            res.render("cmntsnew", { campground: foundcampground });
+            res.render("cmntsnew", { book: foundbook });
         }
     });
 }
 
 //Add comment
 exports.addComment = function(req, res){
-    Campground.findById(req.params.id, function (err, campground) {
+    Book.findById(req.params.id, function (err, book) {
         if (err) {
             console.log(err);
             req.flash("error", "Something Went Wrong");
-            res.redirect("/campground");
+            res.redirect("/book");
         } else {
             Comment.create(req.body.comment, function (err, comment) {
                 if (err) {
@@ -29,11 +29,11 @@ exports.addComment = function(req, res){
                     comment.author.username = req.user.username;
                     //save comment
                     comment.save();
-                    campground.popularity = campground.popularity + 1;
-                    campground.comments.push(comment);
-                    campground.save();              
+                    book.popularity = book.popularity + 1;
+                    book.comments.push(comment);
+                    book.save();              
                     req.flash("success", "Comment Created Successfully");
-                    res.redirect("/campground/" + campground._id);
+                    res.redirect("/book/" + book._id);
                 }
             });
         }
@@ -47,7 +47,7 @@ exports.editComment = function(req, res){
             console.log(err);
             res.redirect("back");
         } else {            
-            res.render("cmntsedit", { campground_id: req.params.id, comment: foundcomment });
+            res.render("cmntsedit", { book_id: req.params.id, comment: foundcomment });
         }
     });
 }
@@ -60,7 +60,7 @@ exports.updateComment = function(req, res){
             res.redirect("back");
         } else {
             req.flash("success", "Comment Edited Succesfully");            
-            res.redirect("/campground/" + req.params.id);
+            res.redirect("/book/" + req.params.id);
         }
     });
 }
@@ -72,16 +72,16 @@ exports.deleteComment = function(req, res){
             console.log(err);
             res.redirect("back");
         } else {
-            Campground.findById(req.params.id, function(err, camp){
+            Book.findById(req.params.id, function(err, book){
                 if(err){
                     console.log(err);
                 } else {
-                    camp.popularity = camp.popularity-0.75;
-                    camp.save(); 
+                    book.popularity = book.popularity-0.75;
+                    book.save(); 
                 }
             });
             req.flash("success", "Comment Deleted Succesfully");            
-            res.redirect("/campground/" + req.params.id);
+            res.redirect("/book/" + req.params.id);
         }
     })
 }

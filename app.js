@@ -49,7 +49,7 @@ app.use(function (req, res, next) {
 });
 
 app.use("/",indexRoutes);
-app.use("/book",booksRoutes);
+app.use("/books",booksRoutes);
 app.use("/campground/:id/comments",commentRoutes);
 
 //---------------------------------LISTNER--------------------------------------
