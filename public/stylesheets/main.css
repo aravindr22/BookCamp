@@ -82,3 +82,17 @@
         opacity: 1;
     }
 }
+
+/* Views */
+.views_eye1{
+    text-align: left;
+    margin-top: 2.5px;
+    float: right;
+    clear: both;
+}
+
+.views_eye{
+    float: right;
+    text-align: left;
+    margin-right: 5px;
+}

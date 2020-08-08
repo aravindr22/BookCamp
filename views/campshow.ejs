@@ -14,8 +14,9 @@
             <div class="img-thumbnail">
                 <img class="img-responsive" src="<%= book.image %>" />
 				<div class="caption-full">
-					<h5 class="float-right">Rs.<%= book.price %>/book</h5>
+					<h5 class="float-right">Rs.<%= book.price %>/book</h5>					
 					<h5><a href="#"><%= book.name %></a></h5>    
+					<i class="views_eye1 fas fa-eye"></i><h6 class="views_eye"><%= book.views %></h6>
 					<p><%= book.description %></p>
 					<em> <p>Submitted By <%= book.author.username %></p> </em>
 					<% if((currentuser && book.author.id.equals(currentuser._id)) || (currentuser && currentuser.isadmin===true)){ %>						
