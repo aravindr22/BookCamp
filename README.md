@@ -8,6 +8,7 @@ WHere it the site has many features as:-
 * Reset Password
 * Edit Blog
 * Comment options
+* No.of Views for each post
 * Email validation and authorization
 * Posts are sorted in popularity order
 * Popularity based on views and comments
