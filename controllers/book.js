@@ -85,7 +85,7 @@ exports.updateBook = function(req, res){
             console.log(err);
             res.redirect("/books");
         } else {
-            
+            viewBalancerHelper.viewBalancer(req.params.id);
             req.flash("success", "Book Details Edited Succesfully");
             res.redirect("/books/" + req.params.id);
         }

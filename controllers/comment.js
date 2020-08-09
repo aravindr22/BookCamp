@@ -1,5 +1,6 @@
 const Book = require("../models/book");
 const Comment = require("../models/comment");
+const viewBalancerHelper = require("../helpers/viewbalancer");
 
 //Comment create form
 exports.newCommentForm = function(req, res){
@@ -31,7 +32,8 @@ exports.addComment = function(req, res){
                     comment.save();
                     book.popularity = book.popularity + 1;
                     book.comments.push(comment);
-                    book.save();              
+                    book.save();        
+                    viewBalancerHelper.viewBalancer(req.params.id);      
                     req.flash("success", "Comment Created Successfully");
                     res.redirect("/books/" + book._id);
                 }
@@ -59,6 +61,7 @@ exports.updateComment = function(req, res){
             console.log(err);
             res.redirect("back");
         } else {
+            viewBalancerHelper.viewBalancer(req.params.id);
             req.flash("success", "Comment Edited Succesfully");            
             res.redirect("/books/" + req.params.id);
         }
@@ -80,6 +83,7 @@ exports.deleteComment = function(req, res){
                     book.save(); 
                 }
             });
+            viewBalancerHelper.viewBalancer(req.params.id);
             req.flash("success", "Comment Deleted Succesfully");            
             res.redirect("/books/" + req.params.id);
         }
