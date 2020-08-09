@@ -1,4 +1,5 @@
 const Book = require("../models/book");
+const viewBalancerHelper = require("../helpers/viewbalancer");
 
 function escapeRegex(text) {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
@@ -84,6 +85,7 @@ exports.updateBook = function(req, res){
             console.log(err);
             res.redirect("/books");
         } else {
+            
             req.flash("success", "Book Details Edited Succesfully");
             res.redirect("/books/" + req.params.id);
         }
