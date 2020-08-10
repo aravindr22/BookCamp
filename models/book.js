@@ -9,6 +9,8 @@ var bookSchema = new mongoose.Schema({
     description: { type: String, default: null},
     views: { type: Number, default: 0 },
     popularity: { type: Number, default: 10 },
+    createdAt: { type: String, default: null },
+    editedAt: { type: Date, default: null  },
     author: {
         id: {
         type: mongoose.Schema.Types.ObjectId,

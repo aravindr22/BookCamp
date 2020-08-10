@@ -1,5 +1,6 @@
 const Book = require("../models/book");
 const viewBalancerHelper = require("../helpers/viewbalancer");
+const updateTimeHelper = require("../helpers/updateTime");
 
 function escapeRegex(text) {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
@@ -32,6 +33,7 @@ exports.indexPage = function(req, res){
 
 //Post req submission for new Book
 exports.createBookPostreq = function(req, res){
+    var date = new Date();
     var name = req.body.name;
     var image = req.body.image;
     var price = req.body.price;
@@ -40,7 +42,14 @@ exports.createBookPostreq = function(req, res){
         id: req.user._id,
         username: req.user.username
     };
-    var newbook = { name: name, image: image, description: description, author: author, price: price };
+    var newbook = { 
+        name: name, 
+        image: image, 
+        description: description, 
+        author: author, 
+        price: price,
+        //createdAt: date
+    };
     Book.create(newbook, function (err, newbook) {
         if (err) {
             console.log(err);
@@ -61,11 +70,11 @@ exports.viewBook = function(req, res){
     Book.findById(req.params.id).populate("comments").exec(function (err, foundbook) {
         if (err) {
             console.log(err);
-        } else {
+        } else {            
             foundbook.popularity = foundbook.popularity + 0.05;
             foundbook.views = foundbook.views + 1;
             foundbook.save();
-            console.log(foundbook);
+            //console.log(foundbook);
             res.render("campshow", { book: foundbook });
         }
     });
@@ -86,6 +95,8 @@ exports.updateBook = function(req, res){
             res.redirect("/books");
         } else {
             viewBalancerHelper.viewBalancer(req.params.id);
+            //updateTimeHelper.updateTime(req.params.id);
+            console.log(updatedata)
             req.flash("success", "Book Details Edited Succesfully");
             res.redirect("/books/" + req.params.id);
         }
