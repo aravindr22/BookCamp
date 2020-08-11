@@ -1,5 +1,7 @@
 const Book = require("../models/book");
 const viewBalancerHelper = require("../helpers/viewbalancer");
+const updateTimeHelper = require("../helpers/updateTime");
+const createTimeHelper = require("../helpers/createTime");
 
 function escapeRegex(text) {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
@@ -40,11 +42,21 @@ exports.createBookPostreq = function(req, res){
         id: req.user._id,
         username: req.user.username
     };
-    var newbook = { name: name, image: image, description: description, author: author, price: price };
+    var date = createTimeHelper.createTime();
+    var newbook = { 
+        name: name, 
+        image: image, 
+        description: description, 
+        author: author, 
+        price: price,
+        createdAt: date
+    };
     Book.create(newbook, function (err, newbook) {
         if (err) {
             console.log(err);
         } else {
+            console.log(">--------------------------------------------------------New book Created");
+            console.log(newbook);
             req.flash("success", "Book Created Successfully");
             res.redirect("/books");
         }
@@ -61,10 +73,11 @@ exports.viewBook = function(req, res){
     Book.findById(req.params.id).populate("comments").exec(function (err, foundbook) {
         if (err) {
             console.log(err);
-        } else {
+        } else {            
             foundbook.popularity = foundbook.popularity + 0.05;
             foundbook.views = foundbook.views + 1;
             foundbook.save();
+            console.log(">--------------------------------------------------------Viewing book Created");
             console.log(foundbook);
             res.render("campshow", { book: foundbook });
         }
@@ -85,7 +98,9 @@ exports.updateBook = function(req, res){
             console.log(err);
             res.redirect("/books");
         } else {
+            console.log(">--------------------------------------------------------Book Updated");
             viewBalancerHelper.viewBalancer(req.params.id);
+            updateTimeHelper.updateTime(req.params.id);
             req.flash("success", "Book Details Edited Succesfully");
             res.redirect("/books/" + req.params.id);
         }
@@ -99,6 +114,8 @@ exports.deleteBook = function(req, res){
             console.log(err);
             res.redirect("/books");
         } else {
+            console.log(">--------------------------------------------------------Deleted Book");
+            console.log(data);
             req.flash("success", "Book Details Deleted Succesfully");
             res.redirect("/books");
         }
