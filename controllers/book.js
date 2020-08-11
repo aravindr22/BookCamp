@@ -55,7 +55,7 @@ exports.createBookPostreq = function(req, res){
         if (err) {
             console.log(err);
         } else {
-            console.log(">------------------------New book Created");
+            console.log(">--------------------------------------------------------New book Created");
             console.log(newbook);
             req.flash("success", "Book Created Successfully");
             res.redirect("/books");
@@ -77,7 +77,7 @@ exports.viewBook = function(req, res){
             foundbook.popularity = foundbook.popularity + 0.05;
             foundbook.views = foundbook.views + 1;
             foundbook.save();
-            console.log(">------------------------Viewing book Created");
+            console.log(">--------------------------------------------------------Viewing book Created");
             console.log(foundbook);
             res.render("campshow", { book: foundbook });
         }
@@ -98,8 +98,7 @@ exports.updateBook = function(req, res){
             console.log(err);
             res.redirect("/books");
         } else {
-            console.log(">------------------------Book Updated");
-            console.log(foundbook);
+            console.log(">--------------------------------------------------------Book Updated");
             viewBalancerHelper.viewBalancer(req.params.id);
             updateTimeHelper.updateTime(req.params.id);
             req.flash("success", "Book Details Edited Succesfully");
@@ -115,6 +114,8 @@ exports.deleteBook = function(req, res){
             console.log(err);
             res.redirect("/books");
         } else {
+            console.log(">--------------------------------------------------------Deleted Book");
+            console.log(data);
             req.flash("success", "Book Details Deleted Succesfully");
             res.redirect("/books");
         }

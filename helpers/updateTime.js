@@ -10,7 +10,8 @@ exports.updateTime = function(id){
             console.log(err);
         } else {
             foundBook.editedAt = date;
-            console.log(foundBook);
+            console.log(">--------------------------------------------------------Added Updated Time");
+            //console.log(foundBook);
             foundBook.save();
         }
     })
