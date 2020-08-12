@@ -2,6 +2,7 @@ const Book = require("../models/book");
 const Comment = require("../models/comment");
 const viewBalancerHelper = require("../helpers/viewbalancer");
 const updateTimeHelper = require("../helpers/updateTime");
+const createTimeHelper = require("../helpers/createTime");
 
 //Comment create form
 exports.newCommentForm = function(req, res){
@@ -29,11 +30,14 @@ exports.addComment = function(req, res){
                     //add username and id to comment
                     comment.author.id = req.user._id;
                     comment.author.username = req.user.username;
+                    comment.createdAt = createTimeHelper.createTime();
                     //save comment
                     comment.save();
                     book.popularity = book.popularity + 1;
                     book.comments.push(comment);
-                    book.save();        
+                    book.save();  
+                    console.log(">--------------------------------------------------------Comment created");
+                    console.log(comment);      
                     viewBalancerHelper.viewBalancer(req.params.id);      
                     req.flash("success", "Comment Created Successfully");
                     res.redirect("/books/" + book._id);
@@ -63,7 +67,7 @@ exports.updateComment = function(req, res){
             res.redirect("back");
         } else {
             viewBalancerHelper.viewBalancer(req.params.id);
-            //updateTimeHelper.updateTime("comment", req.params.id);
+            updateTimeHelper.updateTime("comment", req.params.comment_id);
             console.log(">--------------------------------------------------------Comment Edited");
             console.log(updatedcomment);
             req.flash("success", "Comment Edited Succesfully");            
