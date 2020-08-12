@@ -1,6 +1,7 @@
 const Book = require("../models/book");
 const Comment = require("../models/comment");
 const viewBalancerHelper = require("../helpers/viewbalancer");
+const updateTimeHelper = require("../helpers/updateTime");
 
 //Comment create form
 exports.newCommentForm = function(req, res){
@@ -62,6 +63,9 @@ exports.updateComment = function(req, res){
             res.redirect("back");
         } else {
             viewBalancerHelper.viewBalancer(req.params.id);
+            //updateTimeHelper.updateTime("comment", req.params.id);
+            console.log(">--------------------------------------------------------Comment Edited");
+            console.log(updatedcomment);
             req.flash("success", "Comment Edited Succesfully");            
             res.redirect("/books/" + req.params.id);
         }

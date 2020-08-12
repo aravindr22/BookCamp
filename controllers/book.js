@@ -77,7 +77,7 @@ exports.viewBook = function(req, res){
             foundbook.popularity = foundbook.popularity + 0.05;
             foundbook.views = foundbook.views + 1;
             foundbook.save();
-            console.log(">--------------------------------------------------------Viewing book Created");
+            console.log(">--------------------------------------------------------Viewing book");
             console.log(foundbook);
             res.render("campshow", { book: foundbook });
         }
@@ -100,7 +100,7 @@ exports.updateBook = function(req, res){
         } else {
             console.log(">--------------------------------------------------------Book Updated");
             viewBalancerHelper.viewBalancer(req.params.id);
-            updateTimeHelper.updateTime(req.params.id);
+            updateTimeHelper.updateTime("book", req.params.id);
             req.flash("success", "Book Details Edited Succesfully");
             res.redirect("/books/" + req.params.id);
         }
