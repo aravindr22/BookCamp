@@ -58,7 +58,7 @@ exports.createBookPostreq = function(req, res){
             console.log(">--------------------------------------------------------New book Created");
             console.log(newbook);
             req.flash("success", "Book Created Successfully");
-            res.redirect("/books");
+            res.redirect("/books/" + newbook._id);
         }
     });
 }
@@ -116,6 +116,8 @@ exports.deleteBook = function(req, res){
         } else {
             console.log(">--------------------------------------------------------Deleted Book");
             console.log(data);
+            var username = data.username;
+            console.log(data.comments[0].author);
             req.flash("success", "Book Details Deleted Succesfully");
             res.redirect("/books");
         }
