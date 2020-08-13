@@ -58,7 +58,7 @@ exports.createBookPostreq = function(req, res){
             console.log(">--------------------------------------------------------New book Created");
             console.log(newbook);
             req.flash("success", "Book Created Successfully");
-            res.redirect("/books");
+            res.redirect("/books/" + newbook._id);
         }
     });
 }
@@ -77,7 +77,7 @@ exports.viewBook = function(req, res){
             foundbook.popularity = foundbook.popularity + 0.05;
             foundbook.views = foundbook.views + 1;
             foundbook.save();
-            console.log(">--------------------------------------------------------Viewing book Created");
+            console.log(">--------------------------------------------------------Viewing book");
             console.log(foundbook);
             res.render("campshow", { book: foundbook });
         }
@@ -100,7 +100,7 @@ exports.updateBook = function(req, res){
         } else {
             console.log(">--------------------------------------------------------Book Updated");
             viewBalancerHelper.viewBalancer(req.params.id);
-            updateTimeHelper.updateTime(req.params.id);
+            updateTimeHelper.updateTime("book", req.params.id);
             req.flash("success", "Book Details Edited Succesfully");
             res.redirect("/books/" + req.params.id);
         }
@@ -116,6 +116,8 @@ exports.deleteBook = function(req, res){
         } else {
             console.log(">--------------------------------------------------------Deleted Book");
             console.log(data);
+            var username = data.username;
+            console.log(data.comments[0].author);
             req.flash("success", "Book Details Deleted Succesfully");
             res.redirect("/books");
         }
