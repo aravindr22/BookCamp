@@ -33,34 +33,8 @@ exports.indexPage = function(req, res){
 }
 
 //Post req submission for new Book
-exports.createBookPostreq = function(req, res){
-    var name = req.body.name;
-    var image = req.body.image;
-    var price = req.body.price;
-    var description = req.body.description;
-    var author = {
-        id: req.user._id,
-        username: req.user.username
-    };
-    var date = createTimeHelper.createTime();
-    var newbook = { 
-        name: name, 
-        image: image, 
-        description: description, 
-        author: author, 
-        price: price,
-        createdAt: date
-    };
-    Book.create(newbook, function (err, newbook) {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log(">--------------------------------------------------------New book Created");
-            console.log(newbook);
-            req.flash("success", "Book Created Successfully");
-            res.redirect("/books/" + newbook._id);
-        }
-    });
+exports.createBookPostreq = async function(req,res){
+    
 }
 
 //Form for new Book
@@ -116,8 +90,6 @@ exports.deleteBook = function(req, res){
         } else {
             console.log(">--------------------------------------------------------Deleted Book");
             console.log(data);
-            var username = data.username;
-            console.log(data.comments[0].author);
             req.flash("success", "Book Details Deleted Succesfully");
             res.redirect("/books");
         }
