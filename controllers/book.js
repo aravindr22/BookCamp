@@ -42,28 +42,22 @@ exports.indexPage = function(req, res){
 
 //Post req submission for new Book
 exports.createBookPostreq = async function(req,res){
-    console.log("----------------");
     await cloudinary.uploader.upload(req.file.path, function(result){
         console.log(result);
         req.body.image = result.secure_url;
     })
-    console.log("------------------------------");
-    console.log(req.body)
-    var name = req.body.name;
-    var image = req.body.image;
-    var price = req.body.price;
-    var description = req.body.description;
+
     var author = {
         id: req.user._id,
         username: req.user.username
     };
     var date = createTimeHelper.createTime();
     var newbook = { 
-        name: name, 
-        image: image, 
-        description: description, 
+        name: req.body.name, 
+        image: req.body.image, 
+        description: req.body.description, 
         author: author, 
-        price: price,
+        price: req.body.price,
         createdAt: date
     };
     Book.create(newbook, function (err, newbook) {

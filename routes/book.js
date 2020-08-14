@@ -2,9 +2,6 @@ var express = require("express");
 var router = express.Router();
 var middleware = require("../middleware/index");
 var book = require("../controllers/book");
-var createTimeHelper = require("../helpers/createTime")
-var Book = require("../models/book")
-var path = require("path")
 
 var multer = require("multer");
 var storage = multer.diskStorage({
@@ -21,18 +18,11 @@ var imageFilter = function (req, file, cb) {
     cb(null, true);
 };
 
-var upload = multer({ storage: storage, fileFilter: imageFilter})
-
-var cloudinary = require("cloudinary");
-cloudinary.config({ 
-    cloud_name: 'dbbinc37j', 
-    api_key: process.env.CLOUDINARY_API_KEY, 
-    api_secret: process.env.CLOUDINARY_API_SECRET
-  });
+var upload = multer({ storage: storage, fileFilter: imageFilter});
 
 router.get("/",book.indexPage);
-router.post("/", upload.single('image'), book.createBookPostreq);
-router.get("/new", book.createBookForm);
+router.post("/",middleware.isLoggedin, upload.single('image'), book.createBookPostreq);
+router.get("/new",middleware.isLoggedin, book.createBookForm);
 router.get("/:id", book.viewBook); 
 router.get("/:id/edit", middleware.checkbookownership, book.editBook);
 router.put("/:id", middleware.checkbookownership, book.updateBook);
