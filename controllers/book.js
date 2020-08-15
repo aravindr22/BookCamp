@@ -3,6 +3,14 @@ const viewBalancerHelper = require("../helpers/viewbalancer");
 const updateTimeHelper = require("../helpers/updateTime");
 const createTimeHelper = require("../helpers/createTime");
 
+var cloudinary = require("cloudinary");
+cloudinary.config({ 
+    cloud_name: 'dbbinc37j', 
+    api_key: process.env.CLOUDINARY_API_KEY, 
+    api_secret: process.env.CLOUDINARY_API_SECRET
+  });
+
+
 function escapeRegex(text) {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
@@ -33,22 +41,23 @@ exports.indexPage = function(req, res){
 }
 
 //Post req submission for new Book
-exports.createBookPostreq = function(req, res){
-    var name = req.body.name;
-    var image = req.body.image;
-    var price = req.body.price;
-    var description = req.body.description;
+exports.createBookPostreq = async function(req,res){
+    await cloudinary.uploader.upload(req.file.path, function(result){
+        console.log(result);
+        req.body.image = result.secure_url;
+    })
+
     var author = {
         id: req.user._id,
         username: req.user.username
     };
     var date = createTimeHelper.createTime();
     var newbook = { 
-        name: name, 
-        image: image, 
-        description: description, 
+        name: req.body.name, 
+        image: req.body.image, 
+        description: req.body.description, 
         author: author, 
-        price: price,
+        price: req.body.price,
         createdAt: date
     };
     Book.create(newbook, function (err, newbook) {
@@ -116,8 +125,6 @@ exports.deleteBook = function(req, res){
         } else {
             console.log(">--------------------------------------------------------Deleted Book");
             console.log(data);
-            var username = data.username;
-            console.log(data.comments[0].author);
             req.flash("success", "Book Details Deleted Succesfully");
             res.redirect("/books");
         }
