@@ -7,6 +7,7 @@ WHere it the site has many features as:-
 * Login/sign up
 * Reset Password
 * Edit Blog
+* Image Uploda from local device/machine
 * Comment options
 * No.of Views for each post
 * Email validation and authorization
@@ -14,6 +15,6 @@ WHere it the site has many features as:-
 * Popularity based on views and comments
 
 Website link for campground:
-https://yelpcampar.herokuapp.com/
+https://bookcamp1.herokuapp.com/
 
 MOre updates yet to come...............
