@@ -38,7 +38,7 @@ exports.registerSubmit = function(req, res){
       if(evalid && pvalid){
         var newuser = new User({ username: emailAddress });
         if(pass == cpass){
-          if (req.body.admincode === "secretcode123") {
+          if (req.body.admincode === process.env.ADMINCODE) {
               newuser.isadmin = true;
           }
           User.register(newuser, req.body.password, function (err, data) {
