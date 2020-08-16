@@ -144,13 +144,15 @@ exports.updateBook = function(req, res){
 
 //Delete Book
 exports.deleteBook = function(req, res){
-    Book.findByIdAndRemove(req.params.id, function (err, data) {
+    Book.findByIdAndRemove(req.params.id, async function (err, book) {
         if (err) {
             console.log(err);
             res.redirect("/books");
         } else {
             console.log(">--------------------------------------------------------Deleted Book");
-            console.log(data);
+            console.log(book);
+            await cloudinary.v2.uploader.destroy(book.imageId);
+            book.remove();
             req.flash("success", "Book Details Deleted Succesfully");
             res.redirect("/books");
         }
