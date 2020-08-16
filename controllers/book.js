@@ -42,9 +42,11 @@ exports.indexPage = function(req, res){
 
 //Post req submission for new Book
 exports.createBookPostreq = async function(req,res){
+    //var public_id;
     await cloudinary.uploader.upload(req.file.path, function(result){
         console.log(result);
         req.body.image = result.secure_url;
+        req.body.publicid = result.public_id;
     })
 
     var author = {
@@ -54,7 +56,8 @@ exports.createBookPostreq = async function(req,res){
     var date = createTimeHelper.createTime();
     var newbook = { 
         name: req.body.name, 
-        image: req.body.image, 
+        image: req.body.image,
+        imageId: req.body.publicid,
         description: req.body.description, 
         author: author, 
         price: req.body.price,
@@ -102,12 +105,35 @@ exports.editBook = function(req, res){
 
 //Update Book
 exports.updateBook = function(req, res){
-    Book.findByIdAndUpdate(req.params.id, req.body.book, function (err, updatedata) {
+    if(req.file){
+        cloudinary.v2.uploader.destroy(imageId, function(err, result){
+            console.log(result);
+        });
+    }
+    Book.findById(req.params.id, function (err, book) {
         if (err) {
             console.log(err);
             res.redirect("/books");
         } else {
-            console.log(">--------------------------------------------------------Book Updated");
+            console.log(">--------------------------------------------------------Book Updated");            
+            
+            if(req.file){
+                cloudinary.v2.uploader.destroy(book.imageId, function(err){
+                    if(err){
+                        req.flash("error", err.message);
+                        return res.redirect("back");
+                    }
+                    cloudinary.v2.uploader.upload(req.file.path, function(err, result){
+                        if(err){
+                            req.flash("error", err.message);
+                            return res.redirect("back");
+                        }
+                        book.imageId = result.public_id;
+                        book.image = result.secure_url;
+                    });
+                });
+            }   //Video at 17 min
+
             viewBalancerHelper.viewBalancer(req.params.id);
             updateTimeHelper.updateTime("book", req.params.id);
             req.flash("success", "Book Details Edited Succesfully");
