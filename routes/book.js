@@ -3,7 +3,7 @@ var router = express.Router();
 var middleware = require("../middleware/index");
 var book = require("../controllers/book");
 
-var multer = require("../node_modules/multer/index");
+var multer = require("/Users/Aravind/Desktop/project/yelpcamp/v15/node_modules/multer");
 var storage = multer.diskStorage({
     filename: function(req, file, callback) {
         callback(null, Date.now() + file.originalname);
