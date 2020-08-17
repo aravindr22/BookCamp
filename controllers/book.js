@@ -105,12 +105,12 @@ exports.editBook = function(req, res){
 
 //Update Book
 exports.updateBook = function(req, res){
-    if(req.file){
-        cloudinary.v2.uploader.destroy(imageId, function(err, result){
-            console.log(result);
-        });
-    }
-    Book.findById(req.params.id, function (err, book) {
+    // if(req.file){
+    //     cloudinary.v2.uploader.destroy(imageId, function(err, result){
+    //         console.log(result);
+    //     });
+    // }
+    Book.findById(req.params.id, async function (err, book) {
         if (err) {
             console.log(err);
             res.redirect("/books");
@@ -118,22 +118,20 @@ exports.updateBook = function(req, res){
             console.log(">--------------------------------------------------------Book Updated");            
             
             if(req.file){
-                cloudinary.v2.uploader.destroy(book.imageId, function(err){
-                    if(err){
-                        req.flash("error", err.message);
-                        return res.redirect("back");
-                    }
-                    cloudinary.v2.uploader.upload(req.file.path, function(err, result){
-                        if(err){
-                            req.flash("error", err.message);
-                            return res.redirect("back");
-                        }
-                        book.imageId = result.public_id;
-                        book.image = result.secure_url;
-                    });
-                });
+                try {
+                    await cloudinary.v2.uploader.destroy(book.imageId);
+                    var result = await cloudinary.v2.uploader.upload(req.file.path);
+                    book.imageId = result.public_id;
+                    book.image = result.secure_url;
+                } catch(err) {
+                    req.flash("error", err.message);
+                    return res.redirect("back");
+                }
             }   //Video at 17 min
-
+            book.name = req.body.book.name;
+            book.price = req.body.book.price;
+            book.description = req.body.book.description;
+            book.save();
             viewBalancerHelper.viewBalancer(req.params.id);
             updateTimeHelper.updateTime("book", req.params.id);
             req.flash("success", "Book Details Edited Succesfully");
