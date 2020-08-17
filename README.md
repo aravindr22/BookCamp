@@ -1,13 +1,13 @@
 # BookCamp
 
-BookCamp is a blogging site for BEst destination in world for vacation.
+BookCamp is a blogging site for Best Books around the world...!
 
 WHere it the site has many features as:-
 
 * Login/sign up
 * Reset Password
 * Edit Blog
-* Image Uploda from local device/machine
+* Image Upload/Edit from local device/machine
 * Comment options
 * No.of Views for each post
 * Email validation and authorization

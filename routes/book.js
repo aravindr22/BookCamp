@@ -25,7 +25,7 @@ router.post("/",middleware.isLoggedin, upload.single('image'), book.createBookPo
 router.get("/new",middleware.isLoggedin, book.createBookForm);
 router.get("/:id", book.viewBook); 
 router.get("/:id/edit", middleware.checkbookownership, book.editBook);
-router.put("/:id", middleware.checkbookownership, book.updateBook);
+router.put("/:id", middleware.checkbookownership, upload.single('book[image]'),book.updateBook);
 router.delete("/:id", middleware.checkbookownership, book.deleteBook);
 
 module.exports = router;

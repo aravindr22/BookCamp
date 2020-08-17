@@ -5,6 +5,7 @@ var mongoose = require("mongoose");
 var bookSchema = new mongoose.Schema({
     name: { type: String, default: null},
     image: { type: String, default: null},
+    imageId: { type: String, default: null},
     price: { type: Number, default: 0 },
     description: { type: String, default: null},
     views: { type: Number, default: 0 },

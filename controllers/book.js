@@ -42,9 +42,11 @@ exports.indexPage = function(req, res){
 
 //Post req submission for new Book
 exports.createBookPostreq = async function(req,res){
+    //var public_id;
     await cloudinary.uploader.upload(req.file.path, function(result){
         console.log(result);
         req.body.image = result.secure_url;
+        req.body.publicid = result.public_id;
     })
 
     var author = {
@@ -54,7 +56,8 @@ exports.createBookPostreq = async function(req,res){
     var date = createTimeHelper.createTime();
     var newbook = { 
         name: req.body.name, 
-        image: req.body.image, 
+        image: req.body.image,
+        imageId: req.body.publicid,
         description: req.body.description, 
         author: author, 
         price: req.body.price,
@@ -102,12 +105,33 @@ exports.editBook = function(req, res){
 
 //Update Book
 exports.updateBook = function(req, res){
-    Book.findByIdAndUpdate(req.params.id, req.body.book, function (err, updatedata) {
+    // if(req.file){
+    //     cloudinary.v2.uploader.destroy(imageId, function(err, result){
+    //         console.log(result);
+    //     });
+    // }
+    Book.findById(req.params.id, async function (err, book) {
         if (err) {
             console.log(err);
             res.redirect("/books");
         } else {
-            console.log(">--------------------------------------------------------Book Updated");
+            console.log(">--------------------------------------------------------Book Updated");            
+            
+            if(req.file){
+                try {
+                    await cloudinary.v2.uploader.destroy(book.imageId);
+                    var result = await cloudinary.v2.uploader.upload(req.file.path);
+                    book.imageId = result.public_id;
+                    book.image = result.secure_url;
+                } catch(err) {
+                    req.flash("error", err.message);
+                    return res.redirect("back");
+                }
+            }   //Video at 17 min
+            book.name = req.body.book.name;
+            book.price = req.body.book.price;
+            book.description = req.body.book.description;
+            book.save();
             viewBalancerHelper.viewBalancer(req.params.id);
             updateTimeHelper.updateTime("book", req.params.id);
             req.flash("success", "Book Details Edited Succesfully");
@@ -118,13 +142,15 @@ exports.updateBook = function(req, res){
 
 //Delete Book
 exports.deleteBook = function(req, res){
-    Book.findByIdAndRemove(req.params.id, function (err, data) {
+    Book.findByIdAndRemove(req.params.id, async function (err, book) {
         if (err) {
             console.log(err);
             res.redirect("/books");
         } else {
             console.log(">--------------------------------------------------------Deleted Book");
-            console.log(data);
+            console.log(book);
+            await cloudinary.v2.uploader.destroy(book.imageId);
+            book.remove();
             req.flash("success", "Book Details Deleted Succesfully");
             res.redirect("/books");
         }
