@@ -4,6 +4,7 @@ var middleware = require("../middleware/index");
 var book = require("../controllers/book");
 
 var multer = require("../node_modules/multer/index");
+var multer = require("../node_modules/multer/lib/make-middleware");
 var storage = multer.diskStorage({
     filename: function(req, file, callback) {
         callback(null, Date.now() + file.originalname);
