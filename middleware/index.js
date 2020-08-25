@@ -1,7 +1,6 @@
 var Book = require("../models/Book"),
     Comment = require("../models/Comment");
 
-
 var middlewareobj = {};
 
 middlewareobj.checkbookownership = function (req, res, next) {
