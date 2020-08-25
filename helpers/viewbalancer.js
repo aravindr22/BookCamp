@@ -1,4 +1,4 @@
-const Book = require("../models/book");
+const Book = require("../models/Book");
 
 exports.viewBalancer = function(bookid){
     Book.findById(bookid, function(err, foundBook){

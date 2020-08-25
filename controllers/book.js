@@ -1,4 +1,4 @@
-const Book = require("../models/book");
+const Book = require("../models/Book");
 const viewBalancerHelper = require("../helpers/viewbalancer");
 const updateTimeHelper = require("../helpers/updateTime");
 const createTimeHelper = require("../helpers/createTime");
