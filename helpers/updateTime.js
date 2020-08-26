@@ -1,4 +1,4 @@
-const Book = require("../models/Book");
+const Book = require("../models/book");
 const Comment = require("../models/Comment")
 
 exports.updateTime = function(model, id){
