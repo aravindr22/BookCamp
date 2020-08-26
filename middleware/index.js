@@ -1,5 +1,5 @@
 var Book = require("../models/book.js"),
-    Comment = require("../models/Comment");
+    Comment = require("../models/comment.js");
 
 var middlewareobj = {};
 
