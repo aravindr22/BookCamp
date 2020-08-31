@@ -25,6 +25,7 @@ var bookSchema = new mongoose.Schema({
             ref: "Comment"
         }
     ]
+    
 });
 
 module.exports = mongoose.model("book", bookSchema);
