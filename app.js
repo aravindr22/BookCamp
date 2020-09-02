@@ -14,7 +14,8 @@ var port = process.env.PORT,
 
 var booksRoutes = require("./routes/book"),
     commentRoutes = require("./routes/comment"),
-    indexRoutes = require("./routes/index");
+    indexRoutes = require("./routes/index"),
+    reviewRoutes = require("./routes/review");
 
     
 mongoose.connect(process.env.MONGODB, { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false });
@@ -51,6 +52,7 @@ app.use(function (req, res, next) {
 app.use("/",indexRoutes);
 app.use("/books",booksRoutes);
 app.use("/books/:id/comments",commentRoutes);
+app.use("/books/:id/reviews", reviewRoutes);
 
 //---------------------------------LISTNER--------------------------------------
 
