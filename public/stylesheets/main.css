@@ -11,6 +11,18 @@
     padding: 0;
 }
 
+.thumbnail .caption-full {
+    padding: 9px;
+}
+
+#delete-form {
+    display: inline;
+}
+
+.checked {
+    color: orange;
+}
+
 .img-thumbnail .caption-full{
     padding: 10px;
 }
