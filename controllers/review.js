@@ -1,6 +1,17 @@
 const Review = require("../models/review");
 const Book = require("../models/book");
-const middleware = require("../middleware/Index")
+const middleware = require("../middleware/Index");
+
+function calculateAverage(reviews) {
+    if (reviews.length === 0) {
+        return 0;
+    }
+    var sum = 0;
+    reviews.forEach(function (element) {
+        sum += element.rating;
+    });
+    return sum / reviews.length;
+}
 
 //Review Index
 exports.reviewIndex = (req, res) => {
@@ -53,6 +64,7 @@ exports.reviewCreate = (req, res) => {
             book.rating = calculateAverage(book.reviews);
             //save book
             book.save();
+            console.log(book);
             req.flash("success", "Your review has been successfully added.");
             res.redirect('/books/' + book._id);
         });
