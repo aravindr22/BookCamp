@@ -28,3 +28,33 @@ exports.reviewNew = (req, res) => {
 
     });
 }
+
+//Reviews create
+exports.reviewCreate = (req, res) => {
+    //lookup book using ID
+    Book.findById(req.params.id).populate("reviews").exec(function (err, book) {
+        if (err) {
+            req.flash("error", err.message);
+            return res.redirect("back");
+        }
+        Review.create(req.body.review, function (err, review) {
+            if (err) {
+                req.flash("error", err.message);
+                return res.redirect("back");
+            }
+            //add author username/id and associated book to the review
+            review.author.id = req.user._id;
+            review.author.username = req.user.username;
+            review.book = book;
+            //save review
+            review.save();
+            book.reviews.push(review);
+            // calculate the new average review for the book
+            book.rating = calculateAverage(book.reviews);
+            //save book
+            book.save();
+            req.flash("success", "Your review has been successfully added.");
+            res.redirect('/books/' + book._id);
+        });
+    });
+}
