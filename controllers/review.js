@@ -70,3 +70,14 @@ exports.reviewCreate = (req, res) => {
         });
     });
 }
+
+//review edit
+exports.reviewEidt = (req, res) => {
+    Review.findById(req.params.review_id, function (err, foundReview) {
+        if (err) {
+            req.flash("error", err.message);
+            return res.redirect("back");
+        }
+        res.render("reviewsEdit", {book_id: req.params.id, review: foundReview});
+    });
+}
