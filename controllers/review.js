@@ -78,6 +78,6 @@ exports.reviewEidt = (req, res) => {
             req.flash("error", err.message);
             return res.redirect("back");
         }
-        res.render("reviewsEdit", {book_id: req.params.id, review: foundReview});
+        res.render("reviewEdit", {book_id: req.params.id, review: foundReview});
     });
 }
