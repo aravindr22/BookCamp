@@ -104,3 +104,25 @@ exports.reviewUpdate = (req, res) => {
         });
     });
 }
+
+//Review delete
+exports.reviewDelete = (req, res) => {
+    Review.findByIdAndRemove(req.params.review_id, function (err) {
+        if (err) {
+            req.flash("error", err.message);
+            return res.redirect("back");
+        }
+        Book.findByIdAndUpdate(req.params.id, {$pull: {reviews: req.params.review_id}}, {new: true}).populate("reviews").exec(function (err, book) {
+            if (err) {
+                req.flash("error", err.message);
+                return res.redirect("back");
+            }
+            // recalculate BOok average
+            book.rating = calculateAverage(book.reviews);
+            //save changes
+            book.save();
+            req.flash("success", "Your review was deleted successfully.");
+            res.redirect("/books/" + req.params.id);
+        });
+    });
+}
