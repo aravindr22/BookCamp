@@ -36,7 +36,7 @@
                             <p style="text-align: justify; word-wrap: break-word;">
                                 <%= review.text %>
                             </p>
-                            <% if(currentUser && review.author.id.equals(currentuser._id)){ %>
+                            <% if(currentuser && review.author.id.equals(currentuser._id)){ %>
                             <a class="btn btn-xs btn-warning"
                                href="/books/<%=book._id %>/reviews/<%=review._id %>/edit">Edit</a>
                             <form id="delete-form" action="/books/<%=book._id %>/reviews/<%=review._id %>?_method=DELETE" method="POST">

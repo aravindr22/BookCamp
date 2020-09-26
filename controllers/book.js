@@ -82,7 +82,12 @@ exports.createBookForm = function(req, res){
 
 //View Book
 exports.viewBook = function(req, res){
-    Book.findById(req.params.id).populate("comments").exec(function (err, foundbook) {
+    Book.findById(req.params.id).populate("comments").populate({
+        path: "reviews",
+        options: {
+            Sort: {createdAt: -1}
+        }
+    }).exec(function (err, foundbook) {
         if (err) {
             console.log(err);
         } else {            

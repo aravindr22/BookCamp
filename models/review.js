@@ -14,8 +14,11 @@ var reviewSchema = new mongoose.Schema({
     },
     text: { type: String, default: null },
     author: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        },
+        username: String
     },
     book: {
         type: mongoose.Schema.Types.ObjectId,

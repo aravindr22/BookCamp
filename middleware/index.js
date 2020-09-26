@@ -1,5 +1,6 @@
 var Book = require("../models/book.js"),
-    Comment = require("../models/comment.js");
+    Comment = require("../models/comment.js"),
+    Review = require("../models/review");
 
 var middlewareobj = {};
 
@@ -89,5 +90,26 @@ middlewareobj.checkReviewExistence = function (req, res, next) {
         res.redirect("back");
     }
 };
+
+middlewareobj.checkReviewOwnership = (req, res, next) => {
+    if(req.isAuthenticated()){
+        Review.findById(req.params.review_id, function(err, foundReview){
+            if(err || !foundReview){
+                res.redirect("/books");
+            }  else {
+                // does user own the comment?
+                if(foundReview.author.id.equals(req.user._id)) {
+                    next();
+                } else {
+                    req.flash("error", "You don't have permission to do that");
+                    res.redirect("/books");
+                }
+            }
+        });
+    } else {
+        req.flash("error", "You need to be logged in to do that");
+        res.redirect("/books");
+    }
+}
 
 module.exports = middlewareobj;
