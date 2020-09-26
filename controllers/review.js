@@ -1,6 +1,7 @@
 const Review = require("../models/review");
 const Book = require("../models/book");
 const middleware = require("../middleware/Index");
+const book = require("../models/book");
 
 function calculateAverage(reviews) {
     if (reviews.length === 0) {
@@ -79,5 +80,27 @@ exports.reviewEidt = (req, res) => {
             return res.redirect("back");
         }
         res.render("reviewEdit", {book_id: req.params.id, review: foundReview});
+    });
+}
+
+//review update
+exports.reviewUpdate = (req, res) => {
+    Review.findByIdAndUpdate(req.params.review_id, req.body.review, {new: true}, function (err, updatedReview) {
+        if (err) {
+            req.flash("error", err.message);
+            return res.redirect("back");
+        }
+        Campground.findById(req.params.id).populate("reviews").exec(function (err, campground) {
+            if (err) {
+                req.flash("error", err.message);
+                return res.redirect("back");
+            }
+            // recalculate campground average
+            campground.rating = calculateAverage(campground.reviews);
+            //save changes
+            campground.save();
+            req.flash("success", "Your review was successfully edited.");
+            res.redirect('/books/' + book._id);
+        });
     });
 }
