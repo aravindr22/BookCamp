@@ -90,15 +90,15 @@ exports.reviewUpdate = (req, res) => {
             req.flash("error", err.message);
             return res.redirect("back");
         }
-        Campground.findById(req.params.id).populate("reviews").exec(function (err, campground) {
+        Book.findById(req.params.id).populate("reviews").exec(function (err, book) {
             if (err) {
                 req.flash("error", err.message);
                 return res.redirect("back");
             }
             // recalculate campground average
-            campground.rating = calculateAverage(campground.reviews);
+            book.rating = calculateAverage(book.reviews);
             //save changes
-            campground.save();
+            book.save();
             req.flash("success", "Your review was successfully edited.");
             res.redirect('/books/' + book._id);
         });
