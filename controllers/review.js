@@ -1,6 +1,7 @@
 const Review = require("../models/review");
 const Book = require("../models/book");
 const middleware = require("../middleware/Index");
+const book = require("../models/book");
 
 function calculateAverage(reviews) {
     if (reviews.length === 0) {
@@ -79,5 +80,49 @@ exports.reviewEidt = (req, res) => {
             return res.redirect("back");
         }
         res.render("reviewEdit", {book_id: req.params.id, review: foundReview});
+    });
+}
+
+//review update
+exports.reviewUpdate = (req, res) => {
+    Review.findByIdAndUpdate(req.params.review_id, req.body.review, {new: true}, function (err, updatedReview) {
+        if (err) {
+            req.flash("error", err.message);
+            return res.redirect("back");
+        }
+        Book.findById(req.params.id).populate("reviews").exec(function (err, book) {
+            if (err) {
+                req.flash("error", err.message);
+                return res.redirect("back");
+            }
+            // recalculate campground average
+            book.rating = calculateAverage(book.reviews);
+            //save changes
+            book.save();
+            req.flash("success", "Your review was successfully edited.");
+            res.redirect('/books/' + book._id);
+        });
+    });
+}
+
+//Review delete
+exports.reviewDelete = (req, res) => {
+    Review.findByIdAndRemove(req.params.review_id, function (err) {
+        if (err) {
+            req.flash("error", err.message);
+            return res.redirect("back");
+        }
+        Book.findByIdAndUpdate(req.params.id, {$pull: {reviews: req.params.review_id}}, {new: true}).populate("reviews").exec(function (err, book) {
+            if (err) {
+                req.flash("error", err.message);
+                return res.redirect("back");
+            }
+            // recalculate BOok average
+            book.rating = calculateAverage(book.reviews);
+            //save changes
+            book.save();
+            req.flash("success", "Your review was deleted successfully.");
+            res.redirect("/books/" + req.params.id);
+        });
     });
 }

@@ -1,4 +1,6 @@
-const Book = require("../models/book");
+const Book = require("../models/book"),
+    Comment = require("../models/comment"),
+    Review = require("../models/review")
 const viewBalancerHelper = require("../helpers/viewbalancer");
 const updateTimeHelper = require("../helpers/updateTime");
 const createTimeHelper = require("../helpers/createTime");
@@ -132,7 +134,7 @@ exports.updateBook = function(req, res){
                     req.flash("error", err.message);
                     return res.redirect("back");
                 }
-            }   //Video at 17 min
+            }  
             book.name = req.body.book.name;
             book.price = req.body.book.price;
             book.description = req.body.book.description;
@@ -147,17 +149,38 @@ exports.updateBook = function(req, res){
 
 //Delete Book
 exports.deleteBook = function(req, res){
-    Book.findByIdAndRemove(req.params.id, async function (err, book) {
+    Book.findByIdAndRemove(req.params.id, function (err, book) {
         if (err) {
             console.log(err);
             res.redirect("/books");
         } else {
-            console.log(">--------------------------------------------------------Deleted Book");
-            console.log(book);
-            await cloudinary.v2.uploader.destroy(book.imageId);
-            book.remove();
-            req.flash("success", "Book Details Deleted Succesfully");
-            res.redirect("/books");
+             // deletes all comments associated with the book
+             Comment.remove({"_id": {$in: book.comments}}, function (err) {
+                if (err) {
+                    console.log(err);
+                    return res.redirect("/books");
+                }
+                // deletes all reviews associated with the book
+                Review.remove({"_id": {$in: book.reviews}}, async function (err) {
+                    if (err) {
+                        console.log(err);
+                        return res.redirect("/books");
+                    }
+                    //  delete the book
+                    console.log(">--------------------------------------------------------Deleted Book");
+                    console.log(book);
+                    await cloudinary.v2.uploader.destroy(book.imageId);
+                    book.remove();
+                    req.flash("success", "Campground deleted successfully!");
+                    res.redirect("/books");
+                });
+            });
+            // console.log(">--------------------------------------------------------Deleted Book");
+            // console.log(book);
+            // await cloudinary.v2.uploader.destroy(book.imageId);
+            // book.remove();
+            // req.flash("success", "Book Details Deleted Succesfully");
+            // res.redirect("/books");
         }
     });
 }
