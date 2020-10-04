@@ -1,7 +1,7 @@
 <%- include ('partials/header'); -%>
 
-<div class="container">
-	<header class="jumbotron">
+<div class="container-fluid">
+	<!-- <header class="jumbotron">
 		<div class="container">
 			<h1>Welcome to Bookcamp!!</h1>
 			<p>View our best Books from all over the world</p>
@@ -21,10 +21,23 @@
 		</div>
 	</header>
 	<div>
+	</div> -->
+	<div class="search-bar">
+		<form action="/books" method="GET" class="form-inline">
+			<div class="input-group mb-3">
+				<input type="text" name="search" class="form-control" 
+					placeholder="Book Search....." aria-describedby="button-addon2"
+					style="width: 400px; height: 40px;">
+				<div class="input-group-append">
+					<input type="submit" value="search" class="btn btn-outline-info" 
+						style="width: 125px;"/>
+				</div>
+			</div>
+		</form>
 	</div>
-	<div class="row text-center" style="display:flex; flex-wrap: wrap">		
+	<div class="row text-center" style="display:flex; flex-wrap: wrap; margin-left: 50px; margin-right: 50px;">		
 		<% book.forEach(function(book){ %>
-			<div class=" col-md-4 col-sm-6 ">				
+			<div class=" col-md-3 col-sm-6 ">				
 					<img id="imgsize" class="img-thumbnail" src = "<%= book.image %>">
 					<div class="caption">
 						<h4> <%= book.name %> </h4>

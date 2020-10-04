@@ -108,3 +108,14 @@
     text-align: left;
     margin-right: 5px;
 }
+
+.search-bar{
+    position: relative;
+    left: 38%;
+    margin-top: 40px;
+    margin-bottom: 30px;
+}
+
+footer{
+    
+}
