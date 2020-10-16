@@ -64,6 +64,8 @@ exports.reviewCreate = (req, res) => {
             book.reviews.push(review);
             // calculate the new average review for the book
             book.rating = calculateAverage(book.reviews);
+            //view balancer
+            viewBalancer.viewBalancer(book._id);
             //save book
             book.save();
             console.log(book);
@@ -98,6 +100,8 @@ exports.reviewUpdate = (req, res) => {
             }
             // recalculate campground average
             book.rating = calculateAverage(book.reviews);
+            //view balancer
+            viewBalancer.viewBalancer(book._id);
             //save changes
             book.save();
             req.flash("success", "Your review was successfully edited.");
