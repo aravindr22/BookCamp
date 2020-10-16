@@ -116,6 +116,14 @@
     margin-bottom: 30px;
 }
 
-footer{
-    
+#indexCaption{
+    margin-bottom: 10px;
+}
+
+#indexImage{
+    margin-bottom: 10px;
+}
+
+#newBookForm{
+    margin: 15px 0;
 }
