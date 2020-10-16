@@ -2,6 +2,7 @@ const Review = require("../models/review");
 const Book = require("../models/book");
 const middleware = require("../middleware/Index");
 const book = require("../models/book");
+const viewBalancer = require("../helpers/viewbalancer");
 
 function calculateAverage(reviews) {
     if (reviews.length === 0) {
@@ -119,6 +120,8 @@ exports.reviewDelete = (req, res) => {
             }
             // recalculate BOok average
             book.rating = calculateAverage(book.reviews);
+            //View balancer
+            viewBalancer.viewBalancer(req.params.id);
             //save changes
             book.save();
             req.flash("success", "Your review was deleted successfully.");
