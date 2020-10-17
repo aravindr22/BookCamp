@@ -6,6 +6,7 @@ exports.viewBalancer = function(bookid){
             console.log(err);
         } else {
             foundBook.views = foundBook.views - 1;
+            foundBook.popularity = foundBook.popularity - 0.05;
             foundBook.save();
             console.log(foundBook);
         }
