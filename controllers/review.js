@@ -3,16 +3,9 @@ const Book = require("../models/book");
 const middleware = require("../middleware/Index");
 const book = require("../models/book");
 
-function calculateAverage(reviews) {
-    if (reviews.length === 0) {
-        return 0;
-    }
-    var sum = 0;
-    reviews.forEach(function (element) {
-        sum += element.rating;
-    });
-    return sum / reviews.length;
-}
+const viewBalancer = require("../helpers/viewbalancer");
+const reviewPopularitycalculator = require("../helpers/reviewPopularityHelper");
+const reviewHelper = require("../helpers/reviewHelper");
 
 //Review Index
 exports.reviewIndex = (req, res) => {
@@ -62,10 +55,13 @@ exports.reviewCreate = (req, res) => {
             review.save();
             book.reviews.push(review);
             // calculate the new average review for the book
-            book.rating = calculateAverage(book.reviews);
+            book.rating = reviewHelper.calculateAverage(book.reviews);
+            //view balancer
+            viewBalancer.viewBalancer(book._id);
+            //popularity
+            book.popularity = book.popularity + reviewPopularitycalculator.reviewPopularityCalculator(review.rating);
             //save book
             book.save();
-            console.log(book);
             req.flash("success", "Your review has been successfully added.");
             res.redirect('/books/' + book._id);
         });
@@ -96,7 +92,9 @@ exports.reviewUpdate = (req, res) => {
                 return res.redirect("back");
             }
             // recalculate campground average
-            book.rating = calculateAverage(book.reviews);
+            book.rating = reviewHelper.calculateAverage(book.reviews);
+            //view balancer
+            viewBalancer.viewBalancer(book._id);
             //save changes
             book.save();
             req.flash("success", "Your review was successfully edited.");
@@ -119,6 +117,8 @@ exports.reviewDelete = (req, res) => {
             }
             // recalculate BOok average
             book.rating = calculateAverage(book.reviews);
+            //View balancer
+            viewBalancer.viewBalancer(req.params.id);
             //save changes
             book.save();
             req.flash("success", "Your review was deleted successfully.");

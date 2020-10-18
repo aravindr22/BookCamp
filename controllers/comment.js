@@ -87,7 +87,7 @@ exports.deleteComment = function(req, res){
                 if(err){
                     console.log(err);
                 } else {
-                    book.popularity = book.popularity-0.75;
+                    book.popularity = book.popularity-0.9;
                     book.save(); 
                 }
             });

@@ -8,6 +8,7 @@ WHere it the site has many features as:-
 * Reset Password
 * Edit Blog
 * Image Upload/Edit from local device/machine
+* Review Options
 * Comment options
 * No.of Views for each post
 * Email validation and authorization

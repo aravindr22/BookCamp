@@ -3,7 +3,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-3">
-            <p class="lead">Book Camp!</p>
+            <p class="lead" style="margin-top: 10px;">Book Camp!</p>
             <div class="list-group">
                 <li class="list-group-item active">Info 1</li>
                 <li class="list-group-item">Info 2</li>
@@ -12,7 +12,7 @@
 		</div>
 	
 		<!-- Image Section -->
-        <div class="col-md-9">
+        <div class="col-md-9" style="margin-top: 10px;">
             <div class="img-thumbnail">
                 <img class="img-responsive" src="<%= book.image %>" />
 				<div class="caption-full">
@@ -38,7 +38,7 @@
                         <em>No reviews yet.</em>
                     </h5>
                     <% } else { %>
-                    <p>
+                    <p style="margin-bottom: 5px">
                         <span class="fa fa-star checked"></span>
                         <span class="fa fa-star <% if (book.rating > 1.5) { %> checked <% } %>"></span>
                         <span class="fa fa-star <% if (book.rating > 2.5) { %> checked <% } %>"></span>
@@ -46,10 +46,10 @@
                         <span class="fa fa-star <% if (book.rating > 4.5) { %> checked <% } %>"></span>
                         <em>(total reviews: <%= book.reviews.length %>)</em>
                     </p>
-                    <p>
+                    <p style="margin-bottom: 0px;">
                         Current Book rating: <strong><%= book.rating.toFixed(2) %></strong>
                     </p>
-                    <p><h4>Latest reviews for this Book:</h4></p>
+                    <p><h4 style="margin-bottom: 0px;">Latest reviews for this Book:</h4></p>
                     <hr style="margin-top: 0;">
                     <% book.reviews.slice(0, 5).forEach(function(review){ %>
                     <div class="row">
@@ -74,11 +74,16 @@
                     <hr>
                     <% }); %>
                     <div style="margin-bottom: 10px;">
-                        <h4><a href="/books/<%= book._id %>/reviews"><i class="fa fa-search" aria-hidden="true"></i> See all reviews</a></h4>
+                        <h4 style="margin-top: 25px;">
+                            <a href="/books/<%= book._id %>/reviews" style="font-size: 20px;"> 
+                                <i class="fa fa-search" aria-hidden="true">
+                                </i> See all reviews
+                            </a>
+                        </h4>
                     </div>
                     <% } %>
                     <div>
-                        <a class="btn btn-primary btn-lg <% if (currentuser && book.reviews.some(function (review) {return review.author.id.equals(currentuser._id)})) { %> disabled <% } %>" href="/books/<%= book._id %>/reviews/new">
+                        <a class="btn btn-primary btn-md <% if (currentuser && book.reviews.some(function (review) {return review.author.id.equals(currentuser._id)})) { %> disabled <% } %>" href="/books/<%= book._id %>/reviews/new">
                             Write a New Review</a>
                     </div>
                 </div>
@@ -86,7 +91,7 @@
 
 
 			<!-- Comment Section -->
-			<div class="card card-body bg-light">
+			<div class="card card-body bg-light" style="margin-top: 20px;">
 				<div class="text-right">					
 					<a class="btn btn-success" href="/books/<%= book._id %>/comments/new">Add a Comment</a>					
 			    </div><br>
