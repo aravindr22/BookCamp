@@ -109,8 +109,9 @@ exports.loginPage = function(req, res){
 exports.loginVerification = passport.authenticate("local",
 {
     successRedirect: "/books",
-    failureRedirect: "/login"
-}), function (req, res) {  
+    failureRedirect: "/login",
+    failureFlash: true    
+}), function (req, res) {
 }
 
 //LOgut route
@@ -151,13 +152,13 @@ exports.forgotToken = function(req, res){
         },
         function(token, user, done) {
           const mailOptions = {
-            from: "aravind08222@gmail.com",
+            from: "ar22testmail@gmail.com",
             to: user.username,
             subject: 'Password Reset from YelpCamp', 
             text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account in YelpCamp.\n\n' +
                'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
                'http://' + req.headers.host + '/reset/' + token + '\n\n' +
-               'The link is valied only for 1 Hour' +
+               'The link is valied only for 1 Hour ' +
                'If you did not request this, please ignore this email and your password will remain unchanged.\n'
           };
 

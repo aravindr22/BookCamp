@@ -116,7 +116,7 @@ exports.reviewDelete = (req, res) => {
                 return res.redirect("back");
             }
             // recalculate BOok average
-            book.rating = calculateAverage(book.reviews);
+            book.rating = reviewHelper.calculateAverage(book.reviews);
             //View balancer
             viewBalancer.viewBalancer(req.params.id);
             //save changes

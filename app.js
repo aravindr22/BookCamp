@@ -40,6 +40,8 @@ app.use(passport.session());
 passport.use(new LocalStratergy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+passport.authenticate('local', { failureFlash: 'Invalid username or password.' });
+passport.authenticate('local', { successFlash: 'Welcome to BookCamp!!' });
 
 //passing the current user data to all the routes
 app.use(function (req, res, next) {
