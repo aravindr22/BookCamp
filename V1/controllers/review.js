@@ -1,6 +1,5 @@
 const Review = require("../models/review");
 const Book = require("../models/book");
-const middleware = require("../middleware/Index");
 const book = require("../models/book");
 
 const viewBalancer = require("../helpers/viewbalancer");
