@@ -1,0 +1,129 @@
+﻿.img-thumbnail img{
+    width: 100%;
+}
+
+#imgsize{
+    /*width: 100%;*/
+    height: 250px;
+}
+
+.img-thumbnail{
+    padding: 0;
+}
+
+.thumbnail .caption-full {
+    padding: 9px;
+}
+
+#delete-form {
+    display: inline;
+}
+
+.checked {
+    color: orange;
+}
+
+.img-thumbnail .caption-full{
+    padding: 10px;
+}
+
+#delete-form{
+    display:inline;
+}
+
+.btn-group-xs > .btn, .btn-xs {
+    padding: .25rem .4rem;
+    font-size: .75rem;
+    line-height: .5;
+    border-radius: .2rem;
+}
+
+@media (min-width: 768px) {
+    .my-custom-container {
+        width: 430px;
+    }
+}
+
+@media (min-width: 992px) {
+    .my-custom-container {
+        width: 440px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .my-custom-container {
+        width: 450px;
+    }
+}
+
+#marginadjust{
+    margin-top: 60px;
+}
+
+/*li.nav-item{
+    color:white;
+}*/
+
+#emailHelp{
+    margin-left: 5px;
+}
+
+.error-email-message{
+    margin: 2px 0px 2px 5px;
+}
+
+#Emailmargin{
+    margin-bottom: 10px;
+}
+
+.error-message{
+    font-size: 1em;
+    display: none;
+    color: red;
+    padding-left: 2px;
+    animation: 0.2s ease-in-out fadeIn forwards;
+}
+
+@keyframes fadeIn{
+    form {
+        margin-top: 16px;
+        opacity: 0;
+    }
+    to {
+        margin-top: 8px;
+        opacity: 1;
+    }
+}
+
+/* Views */
+.views_eye1{
+    text-align: left;
+    margin-top: 2.5px;
+    float: right;
+    clear: both;
+}
+
+.views_eye{
+    float: right;
+    text-align: left;
+    margin-right: 5px;
+}
+
+.search-bar{
+    position: relative;
+    left: 38%;
+    margin-top: 40px;
+    margin-bottom: 30px;
+}
+
+#indexCaption{
+    margin-bottom: 10px;
+}
+
+#indexImage{
+    margin-bottom: 10px;
+}
+
+#newBookForm{
+    margin: 15px 0;
+}

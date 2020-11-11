@@ -1,0 +1,99 @@
+body{
+    background-color: #000;
+}
+h2{
+  color: white;
+  margin-bottom: 20px;
+}
+
+/* To position the welcome text and view all campgrounds button */
+#landing-header {
+    z-index: 1;
+    position: relative;
+    text-align: center;
+    padding-top: 40vh;
+}
+
+#landing-header h1{
+    color: white;
+}
+
+/*The unordered list and its list items that we added to landing.ejs need some styling to make them fit across the entire page
+First we'll style the unordered list:*/
+
+.slideshow {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/*This will fix the ul to the window, positioning it in the top left corner and filling the entire screen by setting width and height to 100%; 
+  we set the z-index to 0 to keep the background images behind the rest of the page's content; 
+    list-style is set to none in order to hide the bullet points from the list's default styling; margin and padding are removed entirely
+
+Now we can style all of the list items:*/
+
+.slideshow li {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-size: cover;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    opacity: 0;
+    z-index: 0;
+    animation: imageAnimation 50s linear infinite;
+}
+
+/*Background Images*/
+
+.slideshow li:nth-child(1) { 
+  background-image: url(https://images.unsplash.com/photo-1507842217343-583bb7270b66?ixlib=rb-1.2.1&auto=format&fit=crop&w=853&q=80) 
+}
+.slideshow li:nth-child(2) { 
+  background-image: url(https://images.unsplash.com/photo-1551029506-0807df4e2031?ixlib=rb-1.2.1&auto=format&fit=crop&w=891&q=80);
+  animation-delay: 10s; 
+}
+.slideshow li:nth-child(3) { 
+  background-image: url(https://images.unsplash.com/photo-1544716278-e513176f20b5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1567&q=80);
+  animation-delay: 20s; 
+}
+.slideshow li:nth-child(4) { 
+  background-image: url(https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60);
+  animation-delay: 30s; 
+}
+.slideshow li:nth-child(5) { 
+  background-image: url(https://images.unsplash.com/photo-1484415063229-3d6335668531?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60);
+  animation-delay: 40s; 
+}
+
+/*Now we can create the keyframes for the animation:*/
+@keyframes imageAnimation {
+    0%{
+    opacity: 0;
+    animation-timing-function: ease-in;
+    }
+    10% {
+    opacity: 1;
+    animation-timing-function: ease-out;
+    }
+    20% {
+    opacity: 1
+    }    
+    30% {
+    opacity: 0
+    }
+}
+
+/* Older browser support - .no-cssanimations class added by modernizr */
+.no-cssanimations .slideshow li {
+    opacity: 1;
+}
