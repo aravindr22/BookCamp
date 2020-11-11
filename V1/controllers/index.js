@@ -1,8 +1,7 @@
 var passport = require("passport");
 var nodemailer = require("nodemailer");
 var smtpTransport = require("nodemailer-smtp-transport");
-var User = require("../models/user");    
-var middleware = require("../middleware/Index");
+var User = require("../models/user"); 
 var crypto = require("crypto"),
   async = require("async");
 
