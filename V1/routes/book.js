@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-var middleware = require("../middleware/Index.js");
+var middleware = require("../middleware/Index");
 var book = require("../controllers/book.js");
 
 var multer = require("multer");
