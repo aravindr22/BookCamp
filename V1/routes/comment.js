@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router({ mergeParams: true });
-var middleware = require("../middleware/Index");
+var middleware = require("../middleware/index");
 const comment = require("../controllers/comment");
 
 router.get("/new", middleware.isLoggedin, comment.newCommentForm);
